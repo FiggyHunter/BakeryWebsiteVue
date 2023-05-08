@@ -24,9 +24,11 @@
     "nuxt": "^3.4.3",
     "sass": "^1.62.1",
     "sass-loader": "^13.2.2",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vuetify": "^3.2.2"
   },
   "dependencies": {
+    "normalize.css": "^8.0.1",
     "prettier": "^2.8.8"
   }
 }
