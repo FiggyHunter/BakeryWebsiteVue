@@ -1,5 +1,6 @@
 <template>
   <img class="image" src="../assets/images/bakery.avif" alt="" srcset="" />
+  <HomeContent />
 </template>
 
 <script setup lang="ts">
