@@ -2,7 +2,7 @@
   <nav :class="[`main-navigation`, { blue: backgroundBlue }]">
     <div class="main-navigation__container">
       <nuxt-link to="/"
-        ><img class="main-navigation__logo" src="../assets/images/logo.svg" alt="logo image"
+        ><img :class="[`main-navigation__logo`]" src="../assets/images/logo.svg" alt="logo image"
       /></nuxt-link>
       <ul class="main-navigation__items-container">
         <li v-for="item in menuItems" :key="item.text">
@@ -101,7 +101,7 @@ const menuItems = [
 }
 
 .blue {
-  background-color: blue;
+  background-color: #002559;
 }
 .main-navigation {
   position: fixed;
