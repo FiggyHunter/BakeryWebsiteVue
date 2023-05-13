@@ -2,6 +2,7 @@
   <HomeImageGrid />
   <HomeImageCarousel />
   <HomeHistoryComponent />
+  <HomeInstagramComponent />
 </template>
 
 <script setup lang="ts"></script>
