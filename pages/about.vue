@@ -1,5 +1,5 @@
 <template>
-  <div>Ovo je about page.</div>
+  <div></div>
 </template>
 
 <script setup lang="ts"></script>
