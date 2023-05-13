@@ -1,7 +1,7 @@
 <template>
-  <MainNavigation />
+  <SharedMainNavigation textcolor="white" />
   <div class="div"><slot /></div>
-  <MainFooter />
+  <SharedMainFooter />
 </template>
 
 <script setup lang="ts"></script>
