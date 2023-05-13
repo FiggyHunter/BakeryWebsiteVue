@@ -29,8 +29,8 @@
     </q-carousel>
     <article class="webshop__information">
       <div>
-        <h5 class="webshop__information__sub-headline">Fresh from our Bakery</h5>
-        <h2 class="webshop__information__main-headline"><span class="blue">New </span> web shop</h2>
+        <h5 class="webshop__information__sub-headline">FRESH FROM OUR BAKERY</h5>
+        <h2 class="webshop__information__main-headline"><span class="blue">NEW </span> WEBSHOP</h2>
       </div>
       <hr />
       <p class="webshop__information__pgr">
@@ -126,6 +126,7 @@ onUnmounted(() => {
     }
     &__sub-headline {
       color: #002559;
+      font-family: $c-bold;
     }
     &__main-headline {
       color: #f9b600;
