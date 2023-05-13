@@ -9,7 +9,7 @@
       make your history with us!
     </p>
     <nuxt-link class="history__btn" to="/history">
-      <q-btn class="btn" outline rounded color="white" label="Learn More" />
+      <q-btn class="btn" outline rounded color="white" label="Explore History" />
     </nuxt-link>
   </section>
 </template>
@@ -31,6 +31,11 @@
   background-size: cover;
   background-position: 50%;
   background-attachment: fixed;
+
+  &__headline {
+    width: 90%;
+    margin: 0 auto;
+  }
   &__pgr {
     width: 80%;
     margin: 0 auto;
