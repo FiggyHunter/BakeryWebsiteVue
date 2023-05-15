@@ -123,6 +123,10 @@ onUnmounted(() => {
       letter-spacing: 0.2rem;
       box-shadow: 1.2px 1.2px 1.2px 0.7px rgba(0, 0, 0, 0.137);
       font-size: clamp(0.7rem, 1rem + 2vw, 1.1rem);
+      transition: transform 0.3s;
+      &:hover {
+        transform: scale(0.95);
+      }
     }
     &__sub-headline {
       color: #002559;
