@@ -17,7 +17,7 @@
       >
         <polyline points="9 18 15 12 9 6"></polyline>
       </svg>
-      <nuxt-link>{{ pageName }}</nuxt-link>
+      <nuxt-link>{{ routeName }}</nuxt-link>
     </div>
   </div>
 </template>
@@ -25,19 +25,28 @@
 <script setup lang="ts">
 const props = defineProps({
   pageName: { type: String, required: true },
-  pageRoute: { type: String, required: true },
+  routeName: { type: String, required: true },
 });
 </script>
 
 <style lang="scss" scoped>
 @use '../../assets/styles/abstracts/variables' as *;
 .nav-info {
-  margin: 15% 0 5% 0;
+  margin: 6rem 0 5% 0;
   width: 100%;
   text-align: center;
-  @media screen and (min-width: 900px) {
-    text-align: unset;
+  @media screen and (min-width: 800px) {
+    margin: 20% 0 5% 0;
   }
+  @media screen and (min-width: 1000px) {
+    text-align: left;
+    margin: 16% 0 2% 0;
+  }
+
+  @media screen and (min-width: 1500px) {
+    margin: 13% 0 1% 0;
+  }
+
   h3 {
     font-family: $c-medium;
   }
@@ -53,7 +62,7 @@ const props = defineProps({
     display: flex;
     align-items: center;
     justify-content: center;
-    @media screen and (min-width: 900px) {
+    @media screen and (min-width: 1000px) {
       justify-content: unset;
     }
   }
