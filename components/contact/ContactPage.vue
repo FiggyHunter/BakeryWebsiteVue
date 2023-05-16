@@ -188,7 +188,7 @@ const updateText = (e) => {
 
   &__input:focus {
     ~ label {
-      top: -1.5rem;
+      top: -1.75rem;
     }
     outline: none;
     border-color: goldenrod;
@@ -196,7 +196,7 @@ const updateText = (e) => {
 
   &__input:valid {
     ~ label {
-      top: -1.5rem;
+      top: -1.75rem;
     }
     border-color: greenyellow;
   }
