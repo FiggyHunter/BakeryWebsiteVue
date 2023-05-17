@@ -1,7 +1,11 @@
 <template>
-  <div>This is locations.</div>
+  <LocationsPage />
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+definePageMeta({ layout: 'about' });
+</script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+//
+</style>
