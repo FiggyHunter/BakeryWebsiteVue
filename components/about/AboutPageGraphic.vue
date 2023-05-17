@@ -1,15 +1,17 @@
 <template>
   <div class="graphic-container">
     <h2 class="graphic-container__headline">
-      ><number
-        ref="number1"
+      <number
+        ref="number"
         :from="numberFrom"
         :to="numberTo"
         :duration="6"
         :delay="0.5"
         easing="Power1.easeOut"
       />
-      <span class="graphic-container__sub"> {{ numberDescription }}</span>
+      <ClientOnly>
+        <span class="graphic-container__sub"> {{ numberDescription }}</span>
+      </ClientOnly>
     </h2>
     <div class="graphic-container__bottom">
       <p class="graphic-container__bottom__pgr">{{ description }}</p>
