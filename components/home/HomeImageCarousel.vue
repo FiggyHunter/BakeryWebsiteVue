@@ -134,6 +134,7 @@ onUnmounted(() => {
     }
     &__main-headline {
       color: #f9b600;
+      margin-top: 1rem;
     }
 
     &__pgr {
