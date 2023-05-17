@@ -34,7 +34,7 @@
         :number-from="1"
         :number-to="437"
         number-description="tonnes"
-        description="products produced"
+        description="products"
         :icons-array="[`https://mlinar.hr/icons/svg/bakery-products.svg`]"
         image-width="200px"
       />
@@ -97,6 +97,7 @@
   &__graphics {
     display: grid;
     text-align: center;
+    gap: 2rem;
     grid-area: graphics;
     grid-template-rows: 1fr 1fr 1fr;
     margin-top: 5rem;
