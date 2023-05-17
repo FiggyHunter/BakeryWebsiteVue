@@ -27,6 +27,8 @@ const props = defineProps({
   margin-bottom: 3rem;
   gap: 2rem;
   img {
+    max-height: 100%;
+    object-fit: contain;
     @media screen and (min-width: 700px) {
       width: 100%;
       place-self: center;
