@@ -1,9 +1,12 @@
 <template>
-  <div class="placeholder">Work in progress...</div>
+  <WebshopPage />
 </template>
 
 <script setup lang="ts">
 definePageMeta({ layout: 'about' });
+useHead({
+  title: `Shop | Our Bakery`,
+});
 </script>
 
 <style lang="scss" scoped>

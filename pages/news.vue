@@ -33,6 +33,9 @@ const base = useRuntimeConfig().imagesBase;
 definePageMeta({
   layout: 'news',
 });
+useHead({
+  title: `News | Our Bakery`,
+});
 </script>
 
 <style lang="scss" scoped>
