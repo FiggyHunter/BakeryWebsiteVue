@@ -16,7 +16,7 @@
         <div class="line"></div>
         <article class="product-content__additional-description">
           <h4>
-            Kategorija: <span class="category">{{ displayedProduct.category }}</span></h4
+            Category: <span class="category">{{ displayedProduct.category }}</span></h4
           >
           <h4>
             Mass: <span class="category">{{ displayedProduct.mass }}g</span></h4

@@ -1,4 +1,5 @@
 <template>
+  <HomeHeroImage />
   <HomeImageGrid />
   <HomeImageCarousel />
   <HomeHistoryComponent />
