@@ -1,17 +1,19 @@
 const getImagesBaseUrl = () => {
-  return process.env.ENV === 'DEV' ? 'http://localhost:3000/images' : 'https://www.leotg.com';
+  return process.env.ENV === 'DEV'
+    ? 'http://localhost:3000/images/'
+    : 'https://leotg.com/api/images';
 };
 
 const getProductsBaseUrl = () => {
   return process.env.ENV === 'DEV'
-    ? 'http://localhost:4000/api/products/'
-    : 'https://www.leotg.com';
+    ? 'http://localhost:4000/api/products'
+    : 'https://leotg.com/api/products';
 };
 
 const getProductsImagesBaseUrl = () => {
   return process.env.ENV === 'DEV'
     ? 'http://localhost:3000/images/products/'
-    : 'https://www.leotg.com';
+    : 'https://leotg.com/api/images/products/';
 };
 
 export default {
@@ -41,8 +43,15 @@ export default {
     extras: {
       fontIcons: ['material-icons'],
     },
+    plugins: ['Notify'],
+    config: {
+      notify: {},
+    },
   },
   server: {
     host: '0.0.0.0',
+  },
+  router: {
+    middleware: 'routing',
   },
 };
