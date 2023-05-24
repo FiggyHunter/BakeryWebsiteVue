@@ -114,6 +114,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.body.style.height = 'unset';
   document.body.style.overflow = 'unset';
+  document.removeEventListener('wheel', updateYearAndContent);
 });
 </script>
 
