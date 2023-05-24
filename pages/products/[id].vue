@@ -1,12 +1,12 @@
 <template>
   <div class="limiter">
     <main class="product-content">
-      <nuxt-link class="product-content__link" to="/products"
-        ><button>Back To Products</button>
+      <nuxt-link class="product-content__link" @click="router.go(-1)"
+        ><button>Go Back</button>
       </nuxt-link>
       <nuxt-img
+        src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
         class="product-content__image"
-        :src="`${base}${displayedProduct.imageURL}`"
         loading="lazy"
       ></nuxt-img>
       <section class="product-content__description">
@@ -30,6 +30,7 @@
           >
         </article>
         <div class="line"></div>
+        <button v-if="showButton">Add to cart </button>
       </section>
     </main>
   </div>
@@ -37,15 +38,26 @@
 
 <script setup lang="ts">
 import { getProductById } from '../../api/getProductById';
-definePageMeta({ layout: 'about' });
+definePageMeta({
+  layout: 'about',
+});
 const base = useRuntimeConfig().public.productsImagesBase;
 const fetchedProduct = ref();
 const displayedProduct = computed(() => {
   return new Object(fetchedProduct.value);
 });
+
+const showButton = ref(false);
 const route = useRoute();
+const router = useRouter();
 onBeforeMount(async () => {
   fetchedProduct.value = await getProductById(Number(route.params.id));
+});
+
+if (route.query.past === 'shop') showButton.value = true;
+watch(displayedProduct, () => {
+  document.querySelector('.product-content__image').src =
+    `${base}${displayedProduct.value.imageURL}` || `.`;
 });
 </script>
 
