@@ -39,7 +39,7 @@
         Whether it's sweet or salty, our products are here to help you tell a wonderful story. Order
         online and collect in one of our stores. Your order will be waiting for you!
       </p>
-      <nuxt-link class="button__link" to="/about">
+      <nuxt-link class="button__link" to="/shop">
         <q-btn
           class="webshop__information__button"
           :ripple="{ center: true, color: 'white' }"
