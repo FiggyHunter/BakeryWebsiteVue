@@ -17,7 +17,7 @@
       >
         <polyline points="9 18 15 12 9 6"></polyline>
       </svg>
-      <nuxt-link>{{ routeName }}</nuxt-link>
+      {{ routeName }}
     </div>
   </div>
 </template>

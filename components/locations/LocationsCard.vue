@@ -2,7 +2,7 @@
   <div class="locations">
     <div class="locations__card">
       <div class="location__image-ctr">
-        <img class="locations__image" :src="`${base}/${image}`" alt="" srcset="" />
+        <img class="locations__image" :src="`${base}/${image}`" alt="image of a city" srcset="" />
       </div>
       <h1 class="locations__headline">{{ cityName }}</h1>
       <p class="locations__pgr"> {{ address }}</p>

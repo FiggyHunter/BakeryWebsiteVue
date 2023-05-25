@@ -11,6 +11,9 @@
           loading="lazy"
           :class="[`instagram__picture`, `pic-${n}`]"
           fit="fill"
+          alt="social media image"
+          width="600px"
+          height="600px"
         />
       </nuxt-link>
     </div>

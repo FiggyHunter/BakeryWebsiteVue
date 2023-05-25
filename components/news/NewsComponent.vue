@@ -1,6 +1,6 @@
 <template>
   <article class="news">
-    <nuxt-img loading="lazy" :src="imageUrl" class="news__image"></nuxt-img>
+    <nuxt-img alt="news image" loading="lazy" :src="imageUrl" class="news__image"></nuxt-img>
     <article class="news__content">
       <h4 class="news__content__headline">{{ headline }}</h4>
       <hr class="news__content__line" />

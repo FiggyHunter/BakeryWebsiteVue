@@ -5,6 +5,9 @@
         :src="`${base}${img}`"
         class="products__displayed-product__image"
         format="webp"
+        alt="product image"
+        width="200px"
+        height="200px"
       ></nuxt-img>
       <div class="products__displayed-product__icons">
         <div v-for="category in sub" :key="category" class="">{{ category }}</div></div
