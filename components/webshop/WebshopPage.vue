@@ -12,6 +12,7 @@
             :name="product.productName"
             :id="product.id"
             :sub="product.subCategory"
+            :price="product.price"
           />
         </section>
       </main>
@@ -26,8 +27,8 @@ import { useUserStore } from '~/stores/user';
 const productsStore = useProductsStore();
 const userStore = useUserStore();
 
-const categories = ref();
-const fetchedProducts = ref();
+const categories = ref([]);
+const fetchedProducts = ref({});
 const selectedCategory = ref('');
 
 const updateCategory = (category: string) => {
@@ -38,12 +39,8 @@ const updateCategory = (category: string) => {
 };
 
 onBeforeMount(async () => {
-  await productsStore.FETCH_PRODUCTS();
+  await productsStore.FETCH_WEBSHOP_PRODUCTS();
   fetchedProducts.value = productsStore.GET_ALL_PRODUCTS;
-  categories.value = productsStore.GET_PRODUCTS_CATEGORIES;
-  userStore.GET_SELECTED_CATEGORY
-    ? (selectedCategory.value = userStore.GET_SELECTED_CATEGORY)
-    : (selectedCategory.value = 'breads');
 });
 
 const displayedProducts = computed(() => {
@@ -106,9 +103,9 @@ const displayedProducts = computed(() => {
   }
   &__displayed-products {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 250px);
+    grid-template-columns: repeat(auto-fit, 300px);
     @media screen and (min-width: 700px) {
-      grid-template-columns: repeat(auto-fit, 275px);
+      grid-template-columns: repeat(auto-fit, 300px);
     }
     @media screen and (min-width: 1000px) {
       grid-template-columns: repeat(auto-fit, 350px);
