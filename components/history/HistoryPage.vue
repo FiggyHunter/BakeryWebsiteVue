@@ -21,8 +21,7 @@
         <img
           class="history__image"
           src="https://images.pexels.com/photos/205961/pexels-photo-205961.jpeg?cs=srgb&dl=pexels-igor-ovsyannykov-205961.jpg&fm=jpg"
-          alt=""
-          srcset=""
+          alt="historic image"
         />
       </div>
     </section>
@@ -106,9 +105,11 @@ const findNextAndPreviousYear = (year: string) => {
 };
 
 onMounted(() => {
-  document.body.style.height = '100vh';
-  document.body.style.overflow = 'hidden';
-  document.addEventListener('wheel', updateYearAndContent);
+  if (window.innerWidth > 700) {
+    document.body.style.height = '100vh';
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('wheel', updateYearAndContent);
+  }
 });
 
 onBeforeUnmount(() => {
