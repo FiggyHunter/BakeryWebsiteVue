@@ -49,7 +49,7 @@
     </section>
 
     <section class="world">
-      <img src="../../assets/images/world.svg" alt="" srcset="" />
+      <img src="../../assets/images/world.svg" alt="world image" srcset="" />
       <h3 class="world__headline">On all continents!</h3>
     </section>
   </main>
