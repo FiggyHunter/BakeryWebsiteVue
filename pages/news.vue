@@ -35,6 +35,12 @@ definePageMeta({
 });
 useHead({
   title: `News | Our Bakery`,
+  meta: [
+    {
+      name: 'description',
+      content: `Stay up-to-date with the latest happenings and mouthwatering creations at [Bakery Name]. Explore our news page to unveil a world of culinary inspiration, from tantalizing new recipes to exciting seasonal specials. Immerse yourself in our bakery's journey as we share behind-the-scenes stories, baking tips, and captivating tales of flavor exploration.`,
+    },
+  ],
 });
 </script>
 
