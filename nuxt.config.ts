@@ -16,6 +16,12 @@ const getProductsImagesBaseUrl = () => {
     : 'https://leotg.com/api/images/products/';
 };
 
+const getProductsWebshopBase = () => {
+  return process.env.ENV === 'DEV'
+    ? 'http://localhost:4000/api/webproducts'
+    : 'https://leotg.com/api/webproducts';
+};
+
 export default {
   css: [
     '~/assets/styles/abstracts/index.scss',
@@ -35,6 +41,7 @@ export default {
       imagesBase: getImagesBaseUrl(),
       productsBase: getProductsBaseUrl(),
       productsImagesBase: getProductsImagesBaseUrl(),
+      productsWebshopBase: getProductsWebshopBase(),
     },
   },
   modules: ['nuxt-quasar-ui', '@nuxt/image-edge', '@pinia/nuxt'],
