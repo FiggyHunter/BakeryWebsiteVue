@@ -5,13 +5,16 @@
         :src="`${base}${img}`"
         class="products__displayed-product__image"
         format="webp"
+        alt="product image"
+        width="200px"
+        height="200px"
       ></nuxt-img>
-      <div class="products__displayed-product__icons">
-        <div v-for="category in sub" :key="category" class="">{{ category }}</div></div
-      >
+
+      <div class="products__displayed-product__price">{{ price }} $</div>
+
       <h3 class="products__displayed-product__headline">{{ name }}</h3>
       <button
-        @click.prevent.stop="someFunction({ id, name })"
+        @click.prevent.stop="displayNotification({ id, name })"
         class="products__displayed-product__button"
         >Add to cart</button
       >
@@ -29,10 +32,10 @@ defineProps({
   img: { type: String },
   name: { type: String },
   sub: { type: String },
+  price: { type: String },
 });
 
-const someFunction = (product) => {
-  console.log(product);
+const displayNotification = (product) => {
   $q.notify({
     color: 'indigo-10',
     textColor: 'yellow-7',
@@ -42,7 +45,6 @@ const someFunction = (product) => {
       {
         label: 'Dismiss',
         color: 'white',
-        handler: () => {},
       },
     ],
     timeout: 4000,
@@ -106,6 +108,13 @@ article {
     &:hover {
       transform: scale(0.95);
     }
+  }
+
+  .products__displayed-product__price {
+    font-family: $c-bold;
+    font-size: 1.5rem;
+    text-align: center;
+    color: white;
   }
 
   .q-notifications {
