@@ -56,7 +56,11 @@ const imageLinks = [
     align-items: center;
     justify-content: center;
     margin-bottom: 3rem;
-    overflow-x: hidden;
+    overflow-x: scroll;
+
+    @media screen and (min-width: 1200px) {
+      overflow-x: hidden;
+    }
     padding: 2rem 0rem;
     :nth-child(2n) {
       transform: rotateZ(6deg);
