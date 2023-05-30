@@ -1,31 +1,30 @@
 <template>
   <div class="limiter">
     <SharedMainNavInfo class="info" page-name="Our Products" route-name="Products" />
-    <KeepAlive>
-      <main class="products">
-        <aside class="products__filters"
-          ><button
-            :class="[`products__filters__button`, { bold: category === selectedCategory }]"
-            @click="updateCategory(category)"
-            v-for="category in categories"
-            :key="category"
-          >
-            {{ category }}</button
-          ></aside
+    <main class="products">
+      <aside class="products__filters"
+        ><button
+          :class="[`products__filters__button`, { bold: category === selectedCategory }]"
+          @click="updateCategory(category)"
+          v-for="category in categories"
+          :key="category"
         >
-        <section class="products__displayed-products">
-          <ProductsCard
-            v-for="product in displayedProducts"
-            :key="product.id"
-            class="products__displayed-product"
-            :img="product.imageURL"
-            :name="product.productName"
-            :id="product.id"
-            :sub="product.subCategory"
-          />
-        </section>
-      </main>
-    </KeepAlive>
+          {{ category }}</button
+        ></aside
+      >
+
+      <section class="products__displayed-products">
+        <ProductsCard
+          v-for="product in displayedProducts"
+          :key="product.id"
+          class="products__displayed-product"
+          :img="product.imageURL"
+          :name="product.productName"
+          :id="product.id"
+          :sub="product.subCategory"
+        />
+      </section>
+    </main>
   </div>
 </template>
 
@@ -82,6 +81,7 @@ const displayedProducts = computed(() => {
 }
 
 .products {
+  min-height: 1000px;
   font-family: $c-regular;
   display: grid;
   grid-template-columns: 2fr 5fr;
@@ -125,5 +125,11 @@ const displayedProducts = computed(() => {
 
 .bold {
   font-weight: 900;
+}
+
+.lorem {
+  width: 100%;
+  height: 100%;
+  background-color: red;
 }
 </style>
