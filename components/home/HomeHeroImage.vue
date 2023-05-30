@@ -27,14 +27,19 @@ section {
 }
 .image {
   object-fit: cover;
-  width: 100vw;
-  height: 100vh;
   filter: brightness(50%);
+  height: 100svh;
+  @media screen and (min-width: 900px) {
+    height: 100vh;
+  }
+  width: 100vw;
 }
 
 .home-hero-content {
   position: absolute;
   place-self: end center;
+  padding-left: 1rem;
+
   @media screen and (min-width: 700px) {
     place-self: center;
     text-align: center;
@@ -71,7 +76,7 @@ section {
   place-self: end;
   width: 60px;
   height: 60px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 5rem;
   animation: up-down 2s ease infinite;
   @media screen and (min-width: 1200px) {
     justify-self: center;
