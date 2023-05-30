@@ -6,15 +6,17 @@
         class="products__displayed-product__image"
         format="webp"
         alt="product image"
-        width="200px"
-        height="200px"
+        sizes="sm:50px md:150px lg:300px"
+        width="100"
+        height="100"
+        quality="70"
       ></nuxt-img>
 
       <div class="products__displayed-product__price">{{ price }} $</div>
 
       <h3 class="products__displayed-product__headline">{{ name }}</h3>
       <button
-        @click.prevent.stop="displayNotification({ id, name })"
+        @click.prevent.stop="addProductToCart({ id, name })"
         class="products__displayed-product__button"
         >Add to cart</button
       >
@@ -23,8 +25,11 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '../../stores/user';
+
 const base = useRuntimeConfig().public.productsImagesBase;
 const $q = useQuasar();
+const userStore = useUserStore();
 
 defineProps({
   id: { type: Number, default: 3 },
@@ -35,20 +40,8 @@ defineProps({
   price: { type: String },
 });
 
-const displayNotification = (product) => {
-  $q.notify({
-    color: 'indigo-10',
-    textColor: 'yellow-7',
-    message: `You added ${product.name} `,
-    position: 'bottom',
-    actions: [
-      {
-        label: 'Dismiss',
-        color: 'white',
-      },
-    ],
-    timeout: 4000,
-  });
+const addProductToCart = (product) => {
+  userStore.ADD_PRODUCT_IN_CART(product);
 };
 </script>
 
