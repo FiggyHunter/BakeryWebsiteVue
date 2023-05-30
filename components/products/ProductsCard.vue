@@ -6,8 +6,10 @@
         class="products__displayed-product__image"
         format="webp"
         alt="product image"
-        width="200px"
-        height="200px"
+        sizes="sm:50px md:150px lg:300px"
+        width="100"
+        height="100"
+        quality="70"
       ></nuxt-img>
       <div class="products__displayed-product__icons">
         <div v-for="category in sub" :key="category" class="">{{ category }}</div></div
