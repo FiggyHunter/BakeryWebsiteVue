@@ -160,7 +160,8 @@ watch(displayedProduct, () => {
   &__image {
     width: 700px;
     height: 100%;
-    object-fit: fill;
+    max-height: 400px;
+    object-fit: cover;
     object-position: 50% 50%;
     grid-area: image;
     border: 5px solid #f9b600;
