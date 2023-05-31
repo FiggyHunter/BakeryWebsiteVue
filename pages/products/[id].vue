@@ -36,7 +36,18 @@
           <div class="line"></div>
           <div v-if="showButton" class="buy-dialog">
             <h4 class="price"> PRICE: {{ displayedProduct.price }} $</h4>
-            <button @click="addProductInCart(displayedProduct)">Add to cart </button>
+            <button
+              @click="
+                addProductInCart({
+                  id: displayedProduct.id,
+                  name: displayedProduct.productName,
+                  price: displayedProduct.price,
+                  quantity: 1,
+                  img: displayedProduct.imageURL,
+                })
+              "
+              >Add to cart
+            </button>
           </div>
         </section>
       </main>
@@ -69,6 +80,7 @@ onBeforeMount(async () => {
 });
 
 const addProductInCart = function (product) {
+  console.log(product);
   userStore.ADD_PRODUCT_IN_CART(product);
 };
 if (route.query.past === 'shop') showButton.value = true;
