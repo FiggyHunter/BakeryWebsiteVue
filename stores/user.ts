@@ -16,12 +16,15 @@ export const useUserStore = defineStore('user', () => {
   });
 
   const GET_CART_PRODUCTS = computed(() => {
-    return cart;
+    return cart.value;
+  });
+
+  const GET_CART_LENGTH = computed(() => {
+    return cart.value.length;
   });
 
   const ADD_PRODUCT_IN_CART = function (product) {
     cart.value.push(product);
-    console.log(cart.value);
     $q.notify({
       color: 'indigo-10',
       textColor: 'yellow-7',
@@ -37,11 +40,24 @@ export const useUserStore = defineStore('user', () => {
     });
   };
 
+  const GET_TOTAL_PRICE_OF_CART = function () {
+    let sum = 0;
+    let cart_array = GET_CART_PRODUCTS;
+
+    for (product in cart_array) {
+      sum += product.price * product.quantity;
+    }
+
+    return sum;
+  };
+
   return {
     selectedCategory,
     ADD_SELECTED_CATEGORY,
     GET_SELECTED_CATEGORY,
     ADD_PRODUCT_IN_CART,
     GET_CART_PRODUCTS,
+    GET_CART_LENGTH,
+    GET_TOTAL_PRICE_OF_CART,
   };
 });
