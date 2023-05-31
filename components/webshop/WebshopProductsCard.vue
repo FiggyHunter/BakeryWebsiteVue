@@ -16,7 +16,7 @@
 
       <h3 class="products__displayed-product__headline">{{ name }}</h3>
       <button
-        @click.prevent.stop="addProductToCart({ id, name })"
+        @click.prevent.stop="addProductToCart({ id, name, price, quantity: 1, img })"
         class="products__displayed-product__button"
         >Add to cart</button
       >
@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { useUserStore } from '../../stores/user';
-
+import { findProductById } from '~/stores/helpers/findProductById';
 const base = useRuntimeConfig().public.productsImagesBase;
 const $q = useQuasar();
 const userStore = useUserStore();
@@ -41,7 +41,9 @@ defineProps({
 });
 
 const addProductToCart = (product) => {
-  userStore.ADD_PRODUCT_IN_CART(product);
+  if (findProductById(product.id, userStore.GET_CART_PRODUCTS))
+    findProductById(product.id, userStore.GET_CART_PRODUCTS).quantity++;
+  else userStore.ADD_PRODUCT_IN_CART(product);
 };
 </script>
 
