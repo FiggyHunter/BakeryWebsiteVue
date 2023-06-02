@@ -10,7 +10,7 @@
     <div class="item-quantity">
       <div class="quantity">
         <button @click="decrementQuantity(pId)" class="minus">--</button>
-        <input @change="updateQuantity($event, pId)" :value="pQuantity" type="number" />
+        <input @change="updateQuantity($event, pId, pName)" :value="pQuantity" type="number" />
         <button @click="incrementQuantity(pId)" class="plus">+</button>
       </div>
       <div @click="deleteProduct(pId, pName)" class="delete"><button>Delete Product</button></div>
@@ -26,7 +26,8 @@ import { useUserStore } from '~/stores/user';
 import { findProductById } from '~/stores/helpers/findProductById';
 const userStore = useUserStore();
 
-const updateQuantity = (e: Event, pId) => {
+const updateQuantity = (e: Event, pId, productName) => {
+  if (e.target.value <= 0) deleteProduct(pId, productName);
   findProductById(pId, userStore.GET_CART_PRODUCTS).quantity = e.target.value;
 };
 
