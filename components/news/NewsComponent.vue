@@ -25,6 +25,9 @@ const props = defineProps({
   display: grid;
   align-items: center;
   margin-bottom: 3rem;
+  &__image {
+    border: solid 5px #002b50;
+  }
   gap: 2rem;
   img {
     max-height: 100%;
@@ -61,13 +64,13 @@ const props = defineProps({
     gap: 1rem;
 
     &__headline {
-      font-size: clamp(1rem, 0.1rem + 2.5vw, 1.75rem);
+      font-size: clamp(1rem, 0.7rem + 2.5vw, 1.75rem);
       line-height: 1.75rem;
       font-family: $c-bold;
     }
 
     &__pgr {
-      font-size: clamp(0.7rem, 0.4rem + 1vw, 1rem);
+      font-size: clamp(0.7rem, 0.6rem + 1vw, 1.2rem);
     }
 
     &__line {
