@@ -3,9 +3,13 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '~/stores/user';
+
+const userStore = useUserStore();
+
 definePageMeta({ layout: 'about' });
 useHead({
-  title: `Cart | Our Bakery`,
+  title: `Cart (${userStore.GET_CART_LENGTH}) | Our Bakery`,
 });
 </script>
 
