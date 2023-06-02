@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { getProducts } from '../api/getProducts';
+import { findProductById } from './helpers/findProductById';
 import type { ProductAPIResponse } from '../api/types';
 
 export const useUserStore = defineStore('user', () => {
@@ -24,7 +25,10 @@ export const useUserStore = defineStore('user', () => {
   });
 
   const ADD_PRODUCT_IN_CART = function (product) {
-    cart.value.push(product);
+    if (findProductById(product.id, GET_CART_PRODUCTS.value))
+      findProductById(product.id, GET_CART_PRODUCTS.value).quantity++;
+    else cart.value.push(product);
+
     $q.notify({
       color: 'indigo-10',
       textColor: 'yellow-7',
@@ -51,6 +55,24 @@ export const useUserStore = defineStore('user', () => {
     return sum;
   };
 
+  const DELETE_PRODUCT = function (pId: number, productName: string) {
+    cart.value = cart.value.filter((product) => product.id !== pId);
+
+    $q.notify({
+      color: 'indigo-10',
+      textColor: 'red-7',
+      message: `You removed ${productName} `,
+      position: 'bottom',
+      actions: [
+        {
+          label: 'Dismiss',
+          color: 'white',
+        },
+      ],
+      timeout: 4000,
+    });
+  };
+
   return {
     selectedCategory,
     ADD_SELECTED_CATEGORY,
@@ -59,5 +81,6 @@ export const useUserStore = defineStore('user', () => {
     GET_CART_PRODUCTS,
     GET_CART_LENGTH,
     GET_TOTAL_PRICE_OF_CART,
+    DELETE_PRODUCT,
   };
 });
