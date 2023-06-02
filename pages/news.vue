@@ -1,6 +1,6 @@
 <template>
+  <SharedMainNavInfo class="info" route-name="News" page-name="News" page-route="/news" />
   <div class="text">
-    <SharedMainNavInfo route-name="News" page-name="News" page-route="/news" />
     <NewsComponent
       headline="We won the competition!"
       content="Breaking news! Our bakery has just won first place in the annual citywide baking competition for our famous chocolate cake. Our head baker, Jane, spent months perfecting the recipe, and it has paid off. The judges raved about the cake's rich, moist texture and perfectly balanced chocolate flavor. We are thrilled to be recognized for our hard work and dedication to quality baking. To celebrate our victory, we're offering a special discount on our award-winning chocolate cake for a limited time. Come and taste the best chocolate cake in town!"
@@ -46,11 +46,17 @@ useHead({
 
 <style lang="scss" scoped>
 .text {
-  margin-top: 7rem;
   width: 80%;
   margin: 6rem auto;
-  @media screen and (min-width: 700px) {
-    margin-top: 10rem;
+}
+.info {
+  margin-top: 10rem;
+  @media screen and (min-width: 1000px) {
+    padding-left: 10vw;
+  }
+
+  @media screen and (min-width: 1200px) {
+    padding-left: 14vw;
   }
 }
 </style>
