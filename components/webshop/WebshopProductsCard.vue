@@ -41,9 +41,7 @@ defineProps({
 });
 
 const addProductToCart = (product) => {
-  if (findProductById(product.id, userStore.GET_CART_PRODUCTS))
-    findProductById(product.id, userStore.GET_CART_PRODUCTS).quantity++;
-  else userStore.ADD_PRODUCT_IN_CART(product);
+  userStore.ADD_PRODUCT_IN_CART(product);
 };
 </script>
 
