@@ -6,47 +6,30 @@
     <div class="item-name"
       ><h4 class="item-headline">{{ pName }}</h4>
     </div>
-    <div class="item-price">{{ pPrice }}$</div>
+    <div class="item-price">Item Price: {{ pPrice }}$</div>
     <div class="item-quantity">
-      <button @click="decrementQuantity(pId)" class="minus">--</button>
-      <input :value="pQuantity" type="number" />
-      <button @click="incrementQuantity(pId)" class="plus">+</button>
+      <div class="quantity">
+        <button @click="decrementQuantity(pId)" class="minus">--</button>
+        <input @change="updateQuantity($event, pId)" :value="pQuantity" type="number" />
+        <button @click="incrementQuantity(pId)" class="plus">+</button>
+      </div>
+      <div @click="deleteProduct(pId, pName)" class="delete"><button>Delete Product</button></div>
     </div>
     <div class="totalprice"
       ><h4>{{ (pPrice * pQuantity).toFixed(2) }}$</h4></div
     >
-    <!-- <div class="summary">
-      <div class="summary__headline">
-        <h4>Cart details </h4>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="feather feather-shopping-cart inline"
-        >
-          <circle cx="9" cy="21" r="1"></circle>
-          <circle cx="20" cy="21" r="1"></circle>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-        </svg>
-      </div>
-      <div class="summary__total">
-        <h4>Total Price: {{ cartPrice }} </h4>
-      </div>
-    </div> -->
   </article>
 </template>
 
 <script setup lang="ts">
 import { useUserStore } from '~/stores/user';
 import { findProductById } from '~/stores/helpers/findProductById';
-import { arrayBuffer } from 'stream/consumers';
 const userStore = useUserStore();
+
+const updateQuantity = (e: Event, pId) => {
+  findProductById(pId, userStore.GET_CART_PRODUCTS).quantity = e.target.value;
+};
+
 const incrementQuantity = (id: number) => {
   findProductById(id, userStore.GET_CART_PRODUCTS).quantity++;
 };
@@ -63,6 +46,10 @@ const cartPrice = computed(() => {
   return userStore.GET_TOTAL_PRICE_OF_CART;
 });
 
+const deleteProduct = function (pId: number, productName: string) {
+  userStore.DELETE_PRODUCT(pId, productName);
+};
+
 const base = useRuntimeConfig().public.productsImagesBase;
 const props = defineProps({
   pName: { type: String, required: true },
@@ -76,7 +63,7 @@ const props = defineProps({
 <style lang="scss" scoped>
 .cart-item {
   display: grid;
-  padding-top: 0.5rem;
+  border-radius: 1rem;
   border-top: 1px solid #002b50;
   border-bottom: 1px solid #002b50;
   gap: 0.5rem;
@@ -97,19 +84,12 @@ const props = defineProps({
       'image headline'
       'image price'
       'quantity totalprice '
-      'quantity totalprice'
       'summary summary';
   }
 
-  @media screen and (min-width: 1200px) {
-    grid-template-areas:
-      'image image'
-      'image image'
-      'headline headline'
-      'price price'
-      'quantity totalprice '
-      'quantity totalprice'
-      'summary summary';
+  @media screen and (min-width: 1540px) {
+    border-left: 1px solid #002b50;
+    border-right: 1px solid #002b50;
   }
 
   .item-headline {
@@ -123,6 +103,7 @@ const props = defineProps({
 
 .cart-container {
   grid-area: image;
+  text-align: center;
   @media screen and (min-width: 1200px) {
     justify-self: center;
   }
@@ -130,33 +111,34 @@ const props = defineProps({
 .cart-image {
   object-fit: cover;
   height: 200px;
-  width: 100%;
+
   border: 4px solid black;
   border-radius: 1rem;
-  @media screen and (min-width: 1200px) {
-    height: 400px;
-    width: 100%;
-  }
 }
 .item-quantity {
   display: grid;
-  grid-template-columns: max-content max-content max-content;
+  grid-template-columns: max-content;
+  grid-template-rows: 1fr 1fr;
   align-items: center;
+  justify-items: center;
   justify-self: center;
   grid-area: quantity;
   input {
     text-align: center;
     width: 50px;
   }
-  button {
+  .quantity {
     color: black;
     font-size: 1rem;
     border: 2px solid #f9b600;
     border-radius: 100rem;
     padding: 0rem 0.5rem;
   }
-}
 
+  .delete {
+    color: red;
+  }
+}
 .item-price {
   width: 100%;
   text-align: center;
