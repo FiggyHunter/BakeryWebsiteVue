@@ -52,6 +52,14 @@ const isCartEmpty = computed(() => {
   width: 100%;
   min-height: 400px;
   display: grid;
+  @media screen and (min-width: 700px) {
+    grid-template-columns: repeat(auto-fill, 400px);
+  }
+  @media screen and (min-width: 1300px) {
+    grid-template-columns: repeat(auto-fill, 600px);
+  }
+  gap: 2rem;
+  justify-content: center;
   position: relative;
 }
 .empty {
@@ -64,6 +72,10 @@ const isCartEmpty = computed(() => {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  @media screen and (min-width: 1540px) {
+    top: 40%;
+    left: 35%;
+  }
 
   &__headline {
     font-size: 2rem;
