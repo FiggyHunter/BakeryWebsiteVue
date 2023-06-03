@@ -7,6 +7,7 @@ export const useUserStore = defineStore('user', () => {
   const $q = useQuasar();
   const selectedCategory = ref('');
   const cart = ref([]);
+  const displayDeleteProductPopUp = ref(true);
 
   const ADD_SELECTED_CATEGORY = (category: string) => {
     selectedCategory.value = category;
@@ -55,9 +56,49 @@ export const useUserStore = defineStore('user', () => {
     return sum;
   };
 
-  const DELETE_PRODUCT = function (pId: number, productName: string) {
-    cart.value = cart.value.filter((product) => product.id !== pId);
+  const NOTIFY_USER = function (pId: Number, productName: String) {
+    if (displayDeleteProductPopUp.value) {
+      $q.dialog({
+        title: 'Delete Product',
+        message: 'Are you sure you want to delete the product?',
+        color: 'indigo-10',
+        cancel: true,
+        persistent: true,
+        options: {
+          type: 'checkbox',
+          model: [],
+          items: [{ label: 'Do not show again', value: 'checked', color: 'indigo-10' }],
+        },
+      })
+        .onOk((val) => {
+          if (val == 'checked') displayDeleteProductPopUp.value = false;
+          cart.value = cart.value.filter((product) => product.id !== pId);
+          $q.notify({
+            color: 'indigo-10',
+            textColor: 'red-7',
+            message: `You removed ${productName} `,
+            position: 'bottom',
+            actions: [
+              {
+                label: 'Dismiss',
+                color: 'white',
+              },
+            ],
+            timeout: 4000,
+          });
+        })
+        .onCancel(() => {
+          return false;
+        });
+    }
+  };
 
+  const DELETE_PRODUCT = function (pId: number, productName: string) {
+    if (displayDeleteProductPopUp.value) {
+      NOTIFY_USER(pId, productName);
+      return;
+    }
+    cart.value = cart.value.filter((product) => product.id !== pId);
     $q.notify({
       color: 'indigo-10',
       textColor: 'red-7',
