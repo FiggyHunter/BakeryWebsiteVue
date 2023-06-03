@@ -13,3 +13,7 @@ img {
 * {
   box-sizing: border-box !important;
 }
+
+.q-body--force-scrollbar-y {
+  overflow: hidden !important;
+}
