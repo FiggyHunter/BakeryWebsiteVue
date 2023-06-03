@@ -60,12 +60,12 @@ let interval;
 onMounted(() => {
   interval = setInterval(() => {
     slide.value === 4 ? (slide.value = 1) : (slide.value += 1);
-  }, 4000);
+  }, 3000);
   watch(slide, () => {
     clearInterval(interval);
     interval = setInterval(() => {
       slide.value === 4 ? (slide.value = 1) : (slide.value += 1);
-    }, 4000);
+    }, 3000);
   });
 });
 
