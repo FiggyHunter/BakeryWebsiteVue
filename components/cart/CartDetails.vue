@@ -36,10 +36,7 @@ const incrementQuantity = (id: number) => {
 };
 const decrementQuantity = (id: number) => {
   if (findProductById(id, userStore.GET_CART_PRODUCTS).quantity === 1)
-    userStore.GET_CART_PRODUCTS.splice(
-      userStore.GET_CART_PRODUCTS.findIndex((obj) => obj.id === id),
-      1,
-    );
+    deleteProduct(id, props.pName);
   else findProductById(id, userStore.GET_CART_PRODUCTS).quantity--;
 };
 
