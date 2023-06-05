@@ -1,14 +1,20 @@
 <template>
-  <main class="locations-container">
-    <LocationsCard
-      v-for="location in locations"
-      :address="location.address"
-      :city-name="location.cityName"
-      :average-rating="location.averageRating"
-      :customers="location.customers"
-      :image="location.image"
-    />
-  </main>
+  <div class="limiter">
+    <SharedMainNavInfo
+      page-name="Our Locations Worldwide"
+      route-name="locations"
+    ></SharedMainNavInfo>
+    <main class="locations-container">
+      <LocationsCard
+        v-for="location in locations"
+        :address="location.address"
+        :city-name="location.cityName"
+        :average-rating="location.averageRating"
+        :customers="location.customers"
+        :image="location.image"
+      />
+    </main>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -88,15 +94,15 @@ const locations = [
 
 <style lang="scss" scoped>
 @use '../assets/styles/abstracts/variables' as *;
+
+.limiter {
+  width: 80%;
+  margin: 0 auto;
+}
 .locations-container {
   font-family: $c-regular;
-  margin: 6rem auto;
-  @media screen and (min-width: 700px) {
-    margin: 9rem auto;
-  }
-  @media screen and (min-width: 1300px) {
-    margin: 12rem auto;
-  }
+  margin: clamp(2rem, 2rem + 10vw, 5rem) auto;
+
   display: grid;
   gap: 5rem;
   width: 95%;
