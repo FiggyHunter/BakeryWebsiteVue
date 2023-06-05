@@ -1,24 +1,24 @@
 const getImagesBaseUrl = () => {
   return process.env.ENV === 'DEV'
-    ? 'http://localhost:3000/images/'
+    ? 'http://192.168.0.13:3000/images'
     : 'https://leotg.com/api/images';
 };
 
 const getProductsBaseUrl = () => {
   return process.env.ENV === 'DEV'
-    ? 'http://localhost:4000/api/products'
+    ? 'http://192.168.0.13:4000/api/products'
     : 'https://leotg.com/api/products';
 };
 
 const getProductsImagesBaseUrl = () => {
   return process.env.ENV === 'DEV'
-    ? 'http://localhost:3000/images/products/'
+    ? 'http://192.168.0.13:3000/images/products/'
     : 'https://leotg.com/api/images/products/';
 };
 
 const getProductsWebshopBase = () => {
   return process.env.ENV === 'DEV'
-    ? 'http://localhost:4000/api/webproducts'
+    ? 'http://192.168.0.13:4000/api/webproducts'
     : 'https://leotg.com/api/webproducts';
 };
 
@@ -45,12 +45,15 @@ export default {
     },
   },
   modules: ['nuxt-quasar-ui', '@nuxt/image-edge', '@pinia/nuxt'],
-  plugins: [{ src: '@/plugins/VueNumber.js', mode: 'client' }],
+  plugins: [
+    { src: '@/plugins/VueNumber.js', mode: 'client' },
+    { src: '@/plugins/fetchFromStorage.js', mode: 'client' },
+  ],
   quasar: {
     extras: {
       fontIcons: ['material-icons'],
     },
-    plugins: ['Notify'],
+    plugins: ['Notify', 'Dialog'],
     config: {
       notify: {},
     },
