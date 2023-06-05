@@ -104,13 +104,16 @@ const locations = [
   margin: clamp(2rem, 2rem + 10vw, 5rem) auto;
 
   display: grid;
-  gap: 5rem;
-  width: 95%;
+  gap: 3rem;
+  width: 100%;
+
+  @media screen and (min-width: 1000px) {
+    width: 85%;
+    justify-content: space-evenly;
+    grid-template-columns: repeat(auto-fit, 300px);
+  }
   justify-content: center;
   grid-template-columns: repeat(auto-fit, 300px);
   text-align: center;
 }
 </style>
-
-const cityNames = ["Johannesburg", "Tokyo", "Cairo", "Sydney", "Paris", "Barcelona", "New York",
-"Rio de Janeiro", "Sarajevo", "Melbourne"];
