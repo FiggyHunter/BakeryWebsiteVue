@@ -2,19 +2,22 @@
   <div class="limiter">
     <SharedMainNavInfo page-name="Shopping Cart" route-name="Cart"></SharedMainNavInfo>
     <main class="product-cart">
-      <CartDetails
-        v-for="item in userCartItems"
-        :key="item"
-        :p-img="item.img"
-        :p-name="item.name"
-        :p-price="item.price"
-        :p-quantity="item.quantity"
-        :p-id="item.id"
-      />
-      <div v-if="isCartEmpty" class="empty"
-        ><div class="empty__headline">Shopping Cart is empty.</div>
-        <nuxt-link class="empty__button" to="/shop">Explore Products</nuxt-link>
-      </div>
+      <ClientOnly>
+        <CartDetails
+          v-for="item in userCartItems"
+          :key="item"
+          :p-img="item.img"
+          :p-name="item.name"
+          :p-price="item.price"
+          :p-quantity="item.quantity"
+          :p-id="item.id"
+        />
+
+        <div v-if="isCartEmpty" class="empty"
+          ><div class="empty__headline">Shopping Cart is empty.</div>
+          <nuxt-link class="empty__button" to="/shop">Explore Products</nuxt-link>
+        </div>
+      </ClientOnly>
     </main>
   </div>
 </template>

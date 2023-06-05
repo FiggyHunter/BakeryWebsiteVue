@@ -25,7 +25,12 @@ export const useUserStore = defineStore('user', () => {
     return cart.value.length;
   });
 
+  const GET_POPUP = computed(() => {
+    return displayDeleteProductPopUp;
+  });
+
   const ADD_PRODUCT_IN_CART = function (product) {
+    console.log(product);
     if (findProductById(product.id, GET_CART_PRODUCTS.value))
       findProductById(product.id, GET_CART_PRODUCTS.value).quantity++;
     else cart.value.push(product);
@@ -43,6 +48,9 @@ export const useUserStore = defineStore('user', () => {
       ],
       timeout: 4000,
     });
+    if (process.client) {
+      UPDATE_LOCAL_STORAGE();
+    }
   };
 
   const GET_TOTAL_PRICE_OF_CART = function () {
@@ -57,40 +65,42 @@ export const useUserStore = defineStore('user', () => {
   };
 
   const NOTIFY_USER = function (pId: Number, productName: String) {
-    if (displayDeleteProductPopUp.value) {
-      $q.dialog({
-        title: 'Delete Product',
-        message: 'Are you sure you want to delete the product?',
-        color: 'indigo-10',
-        cancel: true,
-        persistent: true,
-        options: {
-          type: 'checkbox',
-          model: [],
-          items: [{ label: 'Do not show again', value: 'checked', color: 'indigo-10' }],
-        },
-      })
-        .onOk((val) => {
-          if (val == 'checked') displayDeleteProductPopUp.value = false;
-          cart.value = cart.value.filter((product) => product.id !== pId);
-          $q.notify({
-            color: 'indigo-10',
-            textColor: 'red-7',
-            message: `You removed ${productName} `,
-            position: 'bottom',
-            actions: [
-              {
-                label: 'Dismiss',
-                color: 'white',
-              },
-            ],
-            timeout: 4000,
-          });
-        })
-        .onCancel(() => {
-          return false;
+    $q.dialog({
+      title: 'Delete Product',
+      message: 'Are you sure you want to delete the product?',
+      color: 'indigo-10',
+      cancel: true,
+      persistent: true,
+      options: {
+        type: 'checkbox',
+        model: [],
+        items: [{ label: 'Do not show again', value: 'checked', color: 'indigo-10' }],
+      },
+    })
+      .onOk((val) => {
+        if (val == 'checked') {
+          displayDeleteProductPopUp.value = false;
+          UPDATE_DISPLAY_POPUP(false);
+        }
+        cart.value = cart.value.filter((product) => product.id !== pId);
+        $q.notify({
+          color: 'indigo-10',
+          textColor: 'red-7',
+          message: `You removed ${productName} `,
+          position: 'bottom',
+          actions: [
+            {
+              label: 'Dismiss',
+              color: 'white',
+            },
+          ],
+          timeout: 4000,
         });
-    }
+        UPDATE_LOCAL_STORAGE();
+      })
+      .onCancel(() => {
+        return false;
+      });
   };
 
   const DELETE_PRODUCT = function (pId: number, productName: string) {
@@ -112,6 +122,19 @@ export const useUserStore = defineStore('user', () => {
       ],
       timeout: 4000,
     });
+    UPDATE_LOCAL_STORAGE();
+  };
+
+  const REPLACE_CART = function (products) {
+    cart.value = products;
+  };
+
+  const UPDATE_LOCAL_STORAGE = function () {
+    localStorage.setItem('cartItems', JSON.stringify(cart.value));
+  };
+
+  const UPDATE_DISPLAY_POPUP = function (boolvalue: boolean) {
+    localStorage.setItem('popup_displayed', JSON.stringify(boolvalue));
   };
 
   return {
@@ -123,5 +146,9 @@ export const useUserStore = defineStore('user', () => {
     GET_CART_LENGTH,
     GET_TOTAL_PRICE_OF_CART,
     DELETE_PRODUCT,
+    REPLACE_CART,
+    UPDATE_LOCAL_STORAGE,
+    UPDATE_DISPLAY_POPUP,
+    GET_POPUP,
   };
 });

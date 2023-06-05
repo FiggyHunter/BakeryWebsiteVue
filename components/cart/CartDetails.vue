@@ -11,7 +11,9 @@
       <div class="quantity">
         <button @click="decrementQuantity(pId)" class="minus">--</button>
         <input @change="updateQuantity($event, pId, pName)" :value="pQuantity" type="number" />
-        <button @click="incrementQuantity(pId)" class="plus">+</button>
+        <button @click="incrementQuantity(pId, pName, pImg, pPrice, pQuantity)" class="plus"
+          >+</button
+        >
       </div>
       <div @click="deleteProduct(pId, pName)" class="delete"><button>Delete Product</button></div>
     </div>
@@ -25,19 +27,30 @@
 import { useUserStore } from '~/stores/user';
 import { findProductById } from '~/stores/helpers/findProductById';
 const userStore = useUserStore();
+const base = useRuntimeConfig().public.productsImagesBase;
+const props = defineProps({
+  pName: { type: String, required: true },
+  pPrice: { type: String, required: true },
+  pQuantity: { type: String, required: true },
+  pImg: { type: String, required: true, default: 'a' },
+  pId: { type: Number, required: true },
+});
 
 const updateQuantity = (e: Event, pId, productName) => {
   if (e.target.value <= 0) deleteProduct(pId, productName);
   findProductById(pId, userStore.GET_CART_PRODUCTS).quantity = e.target.value;
 };
 
-const incrementQuantity = (id: number) => {
-  findProductById(id, userStore.GET_CART_PRODUCTS).quantity++;
+const incrementQuantity = (id, name, img, price, quantity) => {
+  userStore.ADD_PRODUCT_IN_CART({ id, name, img, price, quantity });
 };
 const decrementQuantity = (id: number) => {
-  if (findProductById(id, userStore.GET_CART_PRODUCTS).quantity === 1)
+  if (findProductById(id, userStore.GET_CART_PRODUCTS).quantity === 1) {
     deleteProduct(id, props.pName);
-  else findProductById(id, userStore.GET_CART_PRODUCTS).quantity--;
+    return;
+  }
+  findProductById(id, userStore.GET_CART_PRODUCTS).quantity--;
+  userStore.UPDATE_LOCAL_STORAGE();
 };
 
 const cartPrice = computed(() => {
@@ -47,15 +60,6 @@ const cartPrice = computed(() => {
 const deleteProduct = function (pId: number, productName: string) {
   userStore.DELETE_PRODUCT(pId, productName);
 };
-
-const base = useRuntimeConfig().public.productsImagesBase;
-const props = defineProps({
-  pName: { type: String, required: true },
-  pPrice: { type: String, required: true },
-  pQuantity: { type: String, required: true },
-  pImg: { type: String, required: true, default: 'a' },
-  pId: { type: Number, required: true },
-});
 </script>
 
 <style lang="scss" scoped>
