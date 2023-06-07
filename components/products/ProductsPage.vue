@@ -1,6 +1,8 @@
 <template>
   <div class="limiter">
-    <SharedMainNavInfo class="info" page-name="Our Products" route-name="Products" />
+    <ClientOnly>
+      <SharedMainNavInfo class="info" page-name="Our Products" route-name="Products" />
+    </ClientOnly>
     <main class="products">
       <aside class="products__filters"
         ><button
@@ -75,7 +77,7 @@ const displayedProducts = computed(() => {
 .limiter {
   width: 95%;
   @media screen and (min-width: 900px) {
-    width: 85%;
+    width: 90%;
   }
   margin: 0 auto;
 }
