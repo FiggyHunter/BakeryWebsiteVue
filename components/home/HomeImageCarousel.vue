@@ -22,6 +22,7 @@
         :name="3"
         img-src="https://images.unsplash.com/photo-1558303420-f814d8a590f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80"
       />
+
       <q-carousel-slide
         :name="4"
         img-src="https://images.unsplash.com/photo-1479894127662-a987d1e38f82?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
@@ -98,7 +99,7 @@ onUnmounted(() => {
   width: 100%;
   grid-template-columns: 1fr;
   @media screen and (min-width: 1200px) {
-    padding: 5% 15% 15% 15%;
+    padding: 10% 15% 10% 15%;
     grid-template-columns: 1fr 1fr;
   }
   gap: 3rem;
