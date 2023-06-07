@@ -19,6 +19,12 @@
         </div>
       </ClientOnly>
     </main>
+    <ClientOnly>
+      <div class="cart-total"
+        ><h2 class="cart-total__headline">Total Cart: {{ cartPrice }}$</h2>
+        <button class="cart-total__button">Order Now </button>
+      </div>
+    </ClientOnly>
   </div>
 </template>
 
@@ -32,6 +38,10 @@ const userCartItems = computed(() => {
 
 const isCartEmpty = computed(() => {
   return userStore.GET_CART_LENGTH === 0 ? true : false;
+});
+
+const cartPrice = computed(() => {
+  return userStore.GET_TOTAL_PRICE_OF_CART();
 });
 </script>
 
@@ -93,6 +103,38 @@ const isCartEmpty = computed(() => {
     transition: transform 0.5s;
     &:hover {
       transform: scale(0.85);
+    }
+  }
+}
+
+.cart-total {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding-bottom: 5rem;
+  width: 85%;
+  margin: 0 auto;
+
+  @media screen and (min-width: 700px) {
+    justify-content: space-between;
+  }
+
+  &__headline {
+    font-family: $c-regular;
+    font-size: 2.5rem;
+  }
+
+  &__button {
+    background-color: #f9b600;
+    font-family: $c-medium;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+    transition: transform 0.5s;
+    &:hover {
+      transform: scale(0.9);
     }
   }
 }
