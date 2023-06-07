@@ -47,16 +47,17 @@ useHead({
 <style lang="scss" scoped>
 .text {
   width: 80%;
-  margin: 6rem auto;
+  margin: 1rem auto 7rem auto;
 }
 .info {
-  margin-top: 10rem;
+  margin-top: 17vw;
   @media screen and (min-width: 1000px) {
     padding-left: 10vw;
   }
 
   @media screen and (min-width: 1200px) {
     padding-left: 14vw;
+    margin-top: 10vw;
   }
 }
 </style>
