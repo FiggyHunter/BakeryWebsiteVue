@@ -53,10 +53,6 @@ const decrementQuantity = (id: number) => {
   userStore.UPDATE_LOCAL_STORAGE();
 };
 
-const cartPrice = computed(() => {
-  return userStore.GET_TOTAL_PRICE_OF_CART;
-});
-
 const deleteProduct = function (pId: number, productName: string) {
   userStore.DELETE_PRODUCT(pId, productName);
 };
@@ -66,8 +62,10 @@ const deleteProduct = function (pId: number, productName: string) {
 .cart-item {
   display: grid;
   border-radius: 1rem;
-  border-top: 1px solid #002b50;
-  border-bottom: 1px solid #002b50;
+  border-top: 2px solid #002b50;
+  border-bottom: 2px solid #002b50;
+  border-left: 2px solid #002b50;
+  border-right: 2px solid #002b50;
   gap: 0.5rem;
   grid-template-areas:
     'image image'
@@ -80,6 +78,7 @@ const deleteProduct = function (pId: number, productName: string) {
   align-items: center;
   height: fit-content;
   margin-bottom: 4rem;
+  overflow: hidden;
 
   @media screen and (min-width: 700px) {
     grid-template-areas:
@@ -90,8 +89,6 @@ const deleteProduct = function (pId: number, productName: string) {
   }
 
   @media screen and (min-width: 1540px) {
-    border-left: 1px solid #002b50;
-    border-right: 1px solid #002b50;
   }
 
   .item-headline {
@@ -113,9 +110,10 @@ const deleteProduct = function (pId: number, productName: string) {
 .cart-image {
   object-fit: cover;
   height: 200px;
-
-  border: 4px solid black;
-  border-radius: 1rem;
+  @media screen and (min-width: 700px) {
+    border-right: 3px solid #002b50;
+    border-bottom: 3px solid #002b50;
+  }
 }
 .item-quantity {
   display: grid;
@@ -145,7 +143,12 @@ const deleteProduct = function (pId: number, productName: string) {
   width: 100%;
   text-align: center;
   grid-area: price;
-  align-content: start;
+  align-self: end;
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+  @media screen and (min-width: 700px) {
+    border-bottom: 2px solid #002b50;
+  }
 }
 
 .totalprice {
