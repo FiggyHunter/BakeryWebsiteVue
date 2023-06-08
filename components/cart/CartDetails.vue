@@ -10,10 +10,8 @@
     <div class="item-quantity">
       <div class="quantity">
         <button @click="decrementQuantity(pId)" class="minus">--</button>
-        <input @change="updateQuantity($event, pId, pName)" :value="pQuantity" type="number" />
-        <button @click="incrementQuantity(pId, pName, pImg, pPrice, pQuantity)" class="plus"
-          >+</button
-        >
+        <input v-model="userProductQuantity" @change="updateQuantity" type="number" />
+        <button @click="incrementQuantity" class="plus">+</button>
       </div>
       <div @click="deleteProduct(pId, pName)" class="delete"><button>Delete Product</button></div>
     </div>
@@ -26,6 +24,7 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/user';
 import { findProductById } from '~/stores/helpers/findProductById';
+import { idText } from 'typescript';
 const userStore = useUserStore();
 const base = useRuntimeConfig().public.productsImagesBase;
 const props = defineProps({
@@ -36,21 +35,28 @@ const props = defineProps({
   pId: { type: Number, required: true },
 });
 
-const updateQuantity = (e: Event, pId, productName) => {
+const userProductQuantity = ref(props.pQuantity);
+const wUserProductQuantity = watch(userProductQuantity, (newValue) => {
+  console.log(newValue);
+  const { pId: id, pName: name, pImg: img, pPrice: price } = props;
+  userStore.ADD_PRODUCT_IN_CART({ id, name, img, price, quantity: newValue });
+});
+
+const updateQuantity = (e: Event) => {
   if (e.target.value <= 0) deleteProduct(pId, productName);
-  findProductById(pId, userStore.GET_CART_PRODUCTS).quantity = e.target.value;
+  userProductQuantity.value = Number(e.target.value);
 };
 
-const incrementQuantity = (id, name, img, price, quantity) => {
-  userStore.ADD_PRODUCT_IN_CART({ id, name, img, price, quantity });
+const incrementQuantity = () => {
+  userProductQuantity.value++;
 };
+
 const decrementQuantity = (id: number) => {
-  if (findProductById(id, userStore.GET_CART_PRODUCTS).quantity === 1) {
+  if (userProductQuantity.value <= 1) {
     deleteProduct(id, props.pName);
     return;
   }
-  findProductById(id, userStore.GET_CART_PRODUCTS).quantity--;
-  userStore.UPDATE_LOCAL_STORAGE();
+  userProductQuantity.value--;
 };
 
 const deleteProduct = function (pId: number, productName: string) {
@@ -74,7 +80,7 @@ const deleteProduct = function (pId: number, productName: string) {
     'quantity quantity'
     'totalprice totalprice'
     'summary summary';
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   align-items: center;
   height: fit-content;
   margin-bottom: 4rem;
@@ -88,12 +94,10 @@ const deleteProduct = function (pId: number, productName: string) {
       'summary summary';
   }
 
-  @media screen and (min-width: 1540px) {
-  }
-
   .item-headline {
     font-size: clamp(1rem, 1rem + 2vw, 2rem);
     text-align: center;
+    padding: 5px;
   }
 }
 .item-name {
@@ -154,6 +158,12 @@ const deleteProduct = function (pId: number, productName: string) {
 .totalprice {
   text-align: center;
   grid-area: totalprice;
+  height: 100%;
+  display: grid;
+  place-content: center;
+  @media screen and (min-width: 700px) {
+    border-left: 2px solid #002b50;
+  }
 }
 
 .summary {
@@ -166,5 +176,15 @@ const deleteProduct = function (pId: number, productName: string) {
     justify-content: center;
     align-items: center;
   }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
 }
 </style>
