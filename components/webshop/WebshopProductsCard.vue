@@ -11,12 +11,15 @@
         height="100"
         quality="70"
       ></nuxt-img>
+      <h3 class="products__displayed-product__headline">{{ name }}</h3>
 
       <div class="products__displayed-product__price">{{ price }} $</div>
+      <SharedInputField @supdate="handleStateUpdated" />
 
-      <h3 class="products__displayed-product__headline">{{ name }}</h3>
       <button
-        @click.prevent.stop="addProductToCart({ id, name, price, quantity: 1, img })"
+        @click.prevent.stop="
+          addProductToCart({ id, name, price, quantity: userAndCartQuantity, img })
+        "
         class="products__displayed-product__button"
         >Add to cart</button
       >
@@ -25,13 +28,18 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '../../stores/user';
 import { findProductById } from '~/stores/helpers/findProductById';
+import { useUserStore } from '../../stores/user';
 const base = useRuntimeConfig().public.productsImagesBase;
-const $q = useQuasar();
 const userStore = useUserStore();
+const userQuantity = ref(1);
+const userAndCartQuantity = computed(() => {
+  if (findProductById(props.id, userStore.GET_CART_PRODUCTS))
+    return userQuantity.value + findProductById(props.id, userStore.GET_CART_PRODUCTS).quantity;
+  return userQuantity.value;
+});
 
-defineProps({
+const props = defineProps({
   id: { type: Number, default: 3 },
   test: { type: String },
   img: { type: String },
@@ -42,6 +50,10 @@ defineProps({
 
 const addProductToCart = (product) => {
   userStore.ADD_PRODUCT_IN_CART(product);
+};
+
+const handleStateUpdated = (newState: number) => {
+  userQuantity.value = newState;
 };
 </script>
 
@@ -56,58 +68,59 @@ article {
     text-decoration: none;
     color: unset;
     display: grid;
-    grid-template-rows: min-content min-content auto auto;
+    grid-template-rows: min-content auto min-content min-content auto;
     gap: 0.5rem;
     grid-template-columns: 1fr;
-    height: 450px;
-  }
-  .products__displayed-product__image {
-    width: 500px;
-    height: 260px;
-    object-fit: cover;
+    height: 500px;
   }
 
-  .products__displayed-product__icons {
-    align-self: start;
-    text-align: center;
-    color: white;
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    text-transform: uppercase;
-    font-family: $c-medium;
-    flex-direction: column;
-  }
-  .products__displayed-product__headline {
-    font-size: clamp(1rem, 1rem + 1vw, 1.75rem);
-    text-align: center;
-    color: #f9b600;
-    line-height: 1rem;
-    align-self: end;
-    margin-bottom: 1rem;
-    font-family: $c-bold;
-  }
-  .products__displayed-product__button {
-    z-index: 10;
-    text-transform: uppercase;
-    color: white;
-    border: 3px solid #f9b600;
-    border-radius: 3rem;
-    height: 50px;
-    place-self: end center;
-    width: 50%;
-    margin-bottom: 10px;
-    transition: transform 0.25s;
-    &:hover {
-      transform: scale(0.95);
+  .products__displayed-product {
+    &__image {
+      width: 500px;
+      height: 260px;
+      object-fit: cover;
     }
-  }
-
-  .products__displayed-product__price {
-    font-family: $c-bold;
-    font-size: 1.5rem;
-    text-align: center;
-    color: white;
+    &__icons {
+      align-self: start;
+      text-align: center;
+      color: white;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      text-transform: uppercase;
+      font-family: $c-medium;
+      flex-direction: column;
+    }
+    &__headline {
+      font-size: clamp(1rem, 1rem + 1vw, 1.75rem);
+      text-align: center;
+      color: #f9b600;
+      line-height: 1rem;
+      align-self: end;
+      margin-bottom: 1rem;
+      font-family: $c-bold;
+    }
+    &__button {
+      z-index: 10;
+      text-transform: uppercase;
+      color: white;
+      border: 3px solid #f9b600;
+      border-radius: 3rem;
+      height: 50px;
+      place-self: end center;
+      width: 50%;
+      margin-bottom: 10px;
+      transition: transform 0.25s;
+      &:hover {
+        transform: scale(0.95);
+      }
+    }
+    &__price {
+      font-family: $c-bold;
+      font-size: 1.5rem;
+      text-align: center;
+      color: white;
+    }
   }
 
   .q-notifications {
