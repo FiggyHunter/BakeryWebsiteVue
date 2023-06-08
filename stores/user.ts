@@ -30,9 +30,8 @@ export const useUserStore = defineStore('user', () => {
   });
 
   const ADD_PRODUCT_IN_CART = function (product) {
-    console.log(product);
     if (findProductById(product.id, GET_CART_PRODUCTS.value))
-      findProductById(product.id, GET_CART_PRODUCTS.value).quantity++;
+      findProductById(product.id, GET_CART_PRODUCTS.value).quantity = product.quantity;
     else cart.value.push(product);
 
     $q.notify({
@@ -55,13 +54,15 @@ export const useUserStore = defineStore('user', () => {
 
   const GET_TOTAL_PRICE_OF_CART = function () {
     let sum = 0;
-    let cart_array = GET_CART_PRODUCTS;
+    let cart_array = GET_CART_PRODUCTS.value;
 
-    for (product in cart_array) {
+    if (cart_array.length === 0) return 0.0;
+
+    cart_array.forEach((product) => {
       sum += product.price * product.quantity;
-    }
+    });
 
-    return sum;
+    return sum.toFixed(2);
   };
 
   const NOTIFY_USER = function (pId: Number, productName: String) {
