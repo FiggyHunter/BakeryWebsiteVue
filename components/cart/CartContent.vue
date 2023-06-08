@@ -20,7 +20,7 @@
       </ClientOnly>
     </main>
     <ClientOnly>
-      <div class="cart-total"
+      <div v-if="!isCartEmpty" class="cart-total"
         ><h2 class="cart-total__headline">Total Cart: {{ cartPrice }}$</h2>
         <button class="cart-total__button">Order Now </button>
       </div>
@@ -65,14 +65,17 @@ const cartPrice = computed(() => {
   width: 100%;
   min-height: 400px;
   display: grid;
+  grid-template-columns: repeat(auto-fit, 250px);
   @media screen and (min-width: 700px) {
-    grid-template-columns: repeat(auto-fill, 400px);
+    grid-template-columns: repeat(auto-fit, 300px);
+    gap: 2rem;
   }
   @media screen and (min-width: 1300px) {
-    grid-template-columns: repeat(auto-fill, 600px);
+    grid-template-columns: repeat(auto-fit, 400px);
+    justify-content: space-between;
+    gap: 0rem;
   }
-  gap: 2rem;
-  justify-content: center;
+  justify-content: space-around;
   position: relative;
 }
 .empty {
@@ -114,7 +117,7 @@ const cartPrice = computed(() => {
   justify-content: center;
   gap: 1rem;
   padding-bottom: 5rem;
-  width: 85%;
+  width: 100%;
   margin: 0 auto;
 
   @media screen and (min-width: 700px) {
@@ -130,12 +133,21 @@ const cartPrice = computed(() => {
     background-color: #f9b600;
     font-family: $c-medium;
     padding: 0.5rem 1rem;
-    border-radius: 1rem;
+    border-radius: 1.5rem;
     font-size: 1rem;
     transition: transform 0.5s;
     &:hover {
       transform: scale(0.9);
     }
+    width: 70%;
+    @media screen and (min-width: 700px) {
+      width: 30%;
+    }
+
+    @media screen and (min-width: 1200px) {
+      width: 20%;
+    }
+    border: 2px solid #002b50;
   }
 }
 </style>
