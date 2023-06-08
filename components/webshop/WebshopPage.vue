@@ -27,16 +27,8 @@ import { useUserStore } from '~/stores/user';
 const productsStore = useProductsStore();
 const userStore = useUserStore();
 
-const categories = ref([]);
 const fetchedProducts = ref({});
 const selectedCategory = ref('');
-
-const updateCategory = (category: string) => {
-  userStore.ADD_SELECTED_CATEGORY(category);
-  selectedCategory.value = userStore.GET_SELECTED_CATEGORY;
-  const helperNav = document.querySelector('.info');
-  helperNav.scrollIntoView({ behavior: 'smooth' });
-};
 
 onBeforeMount(async () => {
   await productsStore.FETCH_WEBSHOP_PRODUCTS();
