@@ -83,6 +83,52 @@ onMounted(() => {
 
 const pageLocationY = ref();
 
+const mobileNavShown = ref(false);
+const handleScroll = () => {
+  const history = document.querySelector('.history')?.getBoundingClientRect() || null;
+  const instagram = document.querySelector('.instagram')?.getBoundingClientRect() || null;
+  const arrow = document.querySelector('.up');
+  const footer = document.querySelector('.main-footer')?.getBoundingClientRect() || null;
+  const image = document.querySelector('.image')?.getBoundingClientRect() || null;
+  pageLocationY.value = window.scrollY;
+  const textColor = props.textcolor;
+  pageLocationY.value > 30 ? (colortext.value = 'white') : (colortext.value = textColor);
+  if (mobileNavShown.value) {
+    colortext.value = 'white';
+  }
+
+  if (history && instagram && footer && arrow) {
+    const arrowOffsetTop = arrow.offsetTop + 35;
+    if (isItIntersecting(arrowOffsetTop, image.top, image.bottom)) {
+      arrow.style.backgroundColor = '#F9B600';
+      arrowColor.value = 'black';
+      return;
+    }
+    if (isItIntersecting(arrowOffsetTop, history.top, history.bottom)) {
+      arrow.style.backgroundColor = '#F9B600';
+      arrowColor.value = 'black';
+      return;
+    }
+
+    if (isItIntersecting(arrowOffsetTop, footer.top, footer.bottom)) {
+      arrow.style.backgroundColor = '#F9B600';
+      arrowColor.value = 'black';
+      return;
+    }
+
+    arrow.style.backgroundColor = '#002559';
+    arrowColor.value = 'white';
+  }
+};
+
+const isItIntersecting = (offset, top, bottom) => offset >= top && offset <= bottom;
+watch(windowWidth, () => {
+  if (windowWidth.value === 800) {
+    mobileNavShown.value = false;
+    handleScroll();
+  }
+});
+
 const backgroundBlue = computed(() => {
   return pageLocationY.value > 30 ? true : false;
 });
