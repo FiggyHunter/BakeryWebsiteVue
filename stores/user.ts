@@ -71,7 +71,7 @@ export const useUserStore = defineStore('user', () => {
       message: 'Are you sure you want to delete the product?',
       color: 'indigo-10',
       cancel: true,
-      persistent: true,
+
       options: {
         type: 'checkbox',
         model: [],
