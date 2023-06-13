@@ -26,7 +26,7 @@ const props = defineProps({
   align-items: center;
   margin-bottom: 3rem;
   &__image {
-    border: solid 5px #002b50;
+    border: solid 4px #f9b600;
   }
   gap: 2rem;
   img {
@@ -67,10 +67,12 @@ const props = defineProps({
       font-size: clamp(1rem, 0.7rem + 2.5vw, 1.75rem);
       line-height: 1.75rem;
       font-family: $c-bold;
+      color: #002b50;
     }
 
     &__pgr {
       font-size: clamp(0.7rem, 0.6rem + 1vw, 1.2rem);
+      color: #002b50;
     }
 
     &__line {
