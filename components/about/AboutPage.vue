@@ -92,6 +92,7 @@
       width: 100%;
       font-size: clamp(0.7rem, 0.5rem + 2vw, 1.5rem);
       margin-bottom: 0px;
+      color: #002b50;
     }
   }
   &__graphics {
