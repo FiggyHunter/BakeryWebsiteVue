@@ -32,7 +32,6 @@
             contenteditable="true"
           >
           </span>
-          <!-- <textarea required class="contact__message" type="text"> </textarea> -->
           <label class="contact__label" for="">Message</label>
         </div>
         <button class="contact__button button" type="submit">Submit</button>
@@ -42,10 +41,6 @@
 </template>
 
 <script setup lang="ts">
-const hello = () => {
-  console.log(spanHasText.value);
-};
-
 const spanActive = ref(false);
 
 const updateText = (e) => {
@@ -64,8 +59,8 @@ const updateText = (e) => {
   display: grid;
   align-content: center;
   min-height: 100vh;
-  padding: clamp(6rem, 1rem + 10vw, 7rem) 0rem 5rem 0rem;
-  background-color: #241d54;
+  padding: clamp(2rem, 1rem + 10vw, 6rem) 0rem clamp(5rem, 1rem + 10vw, 10rem) 0rem;
+  background-color: #002559;
   font-family: $c-regular;
   &__headline {
     margin-top: 0;
@@ -126,6 +121,7 @@ const updateText = (e) => {
         border-bottom: 1px solid white;
         width: 90%;
         justify-self: center;
+        height: fit-content;
       }
       .button {
         grid-area: button;
@@ -231,6 +227,9 @@ const updateText = (e) => {
     place-content: center;
     &:hover {
       transform: scale(0.9);
+    }
+    @media screen and (min-width: 1000px) {
+      width: 25%;
     }
     text-transform: uppercase;
     padding: 1rem;
