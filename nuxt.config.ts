@@ -48,6 +48,9 @@ export default {
   plugins: [
     { src: '@/plugins/VueNumber.js', mode: 'client' },
     { src: '@/plugins/fetchFromStorage.js', mode: 'client' },
+    { src: '@/plugins/changeTitles.js', mode: 'client' },
+    { src: '@/plugins/vee-validate-rules.js', mode: 'client' },
+    { src: '@/plugins/vee-validate-components.js', mode: 'client' },
   ],
   quasar: {
     extras: {
@@ -63,5 +66,15 @@ export default {
   },
   router: {
     middleware: 'routing',
+  },
+  render: {
+    static: {
+      setHeaders(res, path) {
+        if (path.includes('/favicon')) {
+          // Prevent caching for favicon files
+          res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+        }
+      },
+    },
   },
 };
