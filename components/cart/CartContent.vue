@@ -22,8 +22,10 @@
     <ClientOnly>
       <div v-if="!isCartEmpty" class="cart-total"
         ><h2 class="cart-total__headline">Total Cart: {{ cartPrice }}$</h2>
-        <button class="cart-total__button">Order Now </button>
-      </div>
+        <nuxt-link style="text-decoration: none; color: inherit" to="/order">
+          <button class="cart-total__button">Order Now </button>
+        </nuxt-link></div
+      >
     </ClientOnly>
   </div>
 </template>
@@ -127,6 +129,7 @@ const cartPrice = computed(() => {
   &__headline {
     font-family: $c-regular;
     font-size: 2.5rem;
+    text-align: center;
   }
 
   &__button {
@@ -139,14 +142,7 @@ const cartPrice = computed(() => {
     &:hover {
       transform: scale(0.9);
     }
-    width: 70%;
-    @media screen and (min-width: 700px) {
-      width: 30%;
-    }
 
-    @media screen and (min-width: 1200px) {
-      width: 20%;
-    }
     border: 2px solid #002b50;
   }
 }
