@@ -8,6 +8,7 @@ export const useUserStore = defineStore('user', () => {
   const selectedCategory = ref('');
   const cart = ref([]);
   const displayDeleteProductPopUp = ref(true);
+  const onOrder = ref(false);
 
   const ADD_SELECTED_CATEGORY = (category: string) => {
     selectedCategory.value = category;
@@ -138,6 +139,9 @@ export const useUserStore = defineStore('user', () => {
     localStorage.setItem('popup_displayed', JSON.stringify(boolvalue));
   };
 
+  const GET_ON_ORDER = computed(() => onOrder.value);
+  const UPDATE_ON_ORDER = (value: boolean) => (onOrder.value = value);
+
   return {
     selectedCategory,
     ADD_SELECTED_CATEGORY,
@@ -150,6 +154,8 @@ export const useUserStore = defineStore('user', () => {
     REPLACE_CART,
     UPDATE_LOCAL_STORAGE,
     UPDATE_DISPLAY_POPUP,
+    GET_ON_ORDER,
     GET_POPUP,
+    UPDATE_ON_ORDER,
   };
 });
