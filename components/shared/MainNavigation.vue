@@ -77,6 +77,7 @@
           </svg>
         </div>
       </div>
+      <nuxt-link class="order" v-if="displayOrder" to="/order">Go back to your order</nuxt-link>
     </nav>
   </header>
   <transition name="fade">
@@ -118,6 +119,10 @@
 <script setup lang="ts">
 import { useUserStore } from '../../stores/user';
 const userStore = useUserStore();
+const route = useRoute();
+const displayOrder = computed(() => {
+  return userStore.GET_ON_ORDER && route.fullPath !== '/order';
+});
 
 const cartItemsNumber = computed(() => userStore.GET_CART_LENGTH);
 
@@ -225,9 +230,22 @@ const showMobileNav = () => {
 
 .active {
   color: #f9b600 !important;
+  font-weight: 900;
 }
 .blue {
   background-color: #002559;
+}
+
+.order {
+  display: block;
+  width: 100vw;
+  color: black;
+  font-family: $c-bold;
+  text-align: center;
+  text-transform: uppercase;
+  background-color: #f9b600;
+  text-decoration: none;
+  position: sticky;
 }
 .main-navigation {
   position: fixed;
@@ -235,7 +253,7 @@ const showMobileNav = () => {
   top: 0;
   width: 100%;
   z-index: 50;
-  font-family: $c-regular;
+  font-family: $c-medium;
   &__logo {
     padding-left: 0.7rem;
     width: clamp(60px, 8vw + 2rem, 120px);
