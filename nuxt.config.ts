@@ -22,7 +22,7 @@ const getProductsWebshopBase = () => {
     : 'https://leotg.com/api/webproducts';
 };
 
-export default {
+export default defineNuxtConfig({
   css: [
     '~/assets/styles/abstracts/index.scss',
     '~/assets/styles/global/index.scss',
@@ -31,10 +31,10 @@ export default {
   ],
   build: {
     transpile: ['vuetify', 'VueNumber'],
-    compilerOptions: {
-      // List of custom element tag names
-      isCustomElement: (tag) => tag.startsWith('VueNumber'),
-    },
+    // compilerOptions: {
+    //   // List of custom element tag names
+    //   isCustomElement: (tag) => tag.startsWith('VueNumber'),
+    // },
   },
   runtimeConfig: {
     public: {
@@ -51,6 +51,7 @@ export default {
     { src: '@/plugins/changeTitles.js', mode: 'client' },
     { src: '@/plugins/vee-validate-rules.js', mode: 'client' },
     { src: '@/plugins/vee-validate-components.js', mode: 'client' },
+    { src: '@/plugins/routerhook.js', mode: 'client' },
   ],
   quasar: {
     extras: {
@@ -64,17 +65,4 @@ export default {
   server: {
     host: '0.0.0.0',
   },
-  router: {
-    middleware: 'routing',
-  },
-  render: {
-    static: {
-      setHeaders(res, path) {
-        if (path.includes('/favicon')) {
-          // Prevent caching for favicon files
-          res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-        }
-      },
-    },
-  },
-};
+});
