@@ -4,22 +4,33 @@
     <div class="content">
       <h3 class="content__headline">SIGN UP FOR OUR NEWSLETTER</h3>
       <client-only>
-        <div class="content__pill">
-          <input v-model="email" class="email-input" placeholder="e-mail" name="email-input" />
-          <button type="submit" @click="change" class="">Sign Up</button>
-        </div></client-only
-      >
-      <Transition name="fade-in" mode="out-in">
-        <label v-if="test" :class="[{ test: test }, 'placeholder-info']" for="email-input"
-          >Placeholder for an error/success message.</label
+        <Form
+          :validation-schema="schema"
+          class="content__pill"
+          @invalid-submit="onInvalidSubmit"
+          @submit="onSubmit"
         >
-      </Transition>
+          <Field class="email-input" type="email" placeholder="e-mail" name="email" />
+
+          <button type="submit" class="">Sign Up</button>
+        </Form>
+        <Transition name="fade-in" mode="out-in">
+          <label
+            v-if="message"
+            for="email"
+            name="email"
+            :class="[{ valid: valid, invalid: invalid }, 'placeholder-info']"
+          >
+            {{ message }}
+          </label>
+        </Transition>
+      </client-only>
 
       <hr class="content__line" />
 
       <div class="content__information">
         <div class="content__information-image">
-          <img src="~/assets/images/logo.svg" />
+          <img src="~/assets/images/logo.svg" alt="company logo" />
         </div>
         <div class="content__information-text">
           <p>Bakery Fictional Co.</p>
@@ -37,6 +48,28 @@
 </template>
 
 <script setup lang="ts">
+import { Field, Form } from 'vee-validate';
+import * as yup from 'yup';
+
+const valid = ref(false);
+const invalid = ref(false);
+const message = ref('');
+
+function onSubmit(values) {
+  message.value = 'Successfully subscribed to the Newsletter!';
+  invalid.value = false;
+  valid.value = true;
+}
+
+function onInvalidSubmit(values) {
+  invalid.value = true;
+  valid.value = false;
+  message.value = 'Please check your email.';
+}
+
+const schema = yup.object({
+  email: yup.string().email().required(),
+});
 const test = ref(false);
 </script>
 
@@ -53,10 +86,12 @@ const test = ref(false);
     margin: 0 auto;
   }
   &__pill {
+    position: relative;
     border: 1px solid white;
     display: grid;
     grid-template-columns: 7fr 2fr;
     grid-template-rows: 1fr;
+    overflow: hidden;
 
     height: 3rem;
     @media screen and (min-width: 1000px) {
@@ -72,6 +107,7 @@ const test = ref(false);
     input {
       color: white;
       padding: 0rem 1rem;
+      background-color: transparent;
     }
     button {
       padding: 0.5rem 0.6rem;
@@ -128,8 +164,12 @@ const test = ref(false);
   }
 }
 
-.test {
-  color: rgb(248, 54, 54);
+.valid {
+  color: limegreen;
+}
+
+.invalid {
+  color: red;
 }
 .placeholder-info {
   font-size: clamp(0.75rem, 0.35rem + 1vw, 1.1rem);
