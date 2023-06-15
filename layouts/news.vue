@@ -1,5 +1,5 @@
 <template>
-  <SharedMainNavigation textcolor="black" />
+  <SharedMainNavigation textcolor="#002550" />
   <div class="div"><slot /></div>
   <SharedMainFooter />
 </template>
