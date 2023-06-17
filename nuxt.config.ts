@@ -49,9 +49,7 @@ export default defineNuxtConfig({
     { src: '@/plugins/VueNumber.js', mode: 'client' },
     { src: '@/plugins/fetchFromStorage.js', mode: 'client' },
     { src: '@/plugins/changeTitles.js', mode: 'client' },
-    { src: '@/plugins/vee-validate-rules.js', mode: 'client' },
     { src: '@/plugins/vee-validate-components.js', mode: 'client' },
-    { src: '@/plugins/routerhook.js', mode: 'client' },
   ],
   quasar: {
     extras: {
