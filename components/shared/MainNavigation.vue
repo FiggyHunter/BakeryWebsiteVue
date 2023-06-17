@@ -38,7 +38,7 @@
           </nuxt-link>
           <nuxt-link to="/cart">
             <v-badge
-              :text-color="colortext"
+              text-color="black"
               color="#F9B600"
               class="cart-badge"
               :content="cartItemsNumber"
@@ -371,6 +371,7 @@ const showMobileNav = () => {
   width: 50px;
   bottom: 0.75rem;
   right: 0.75rem;
+  transition: transform 0.5s;
 
   @media screen and (min-width: 1000px) {
     bottom: 2rem;
@@ -379,6 +380,9 @@ const showMobileNav = () => {
   border-radius: 1rem;
   &:hover {
     cursor: pointer;
+  }
+  &:active {
+    transform: scale(0.65);
   }
   .arrow {
     width: 100%;

@@ -110,9 +110,13 @@ article {
       place-self: end center;
       width: 50%;
       margin-bottom: 10px;
-      transition: transform 0.25s;
+      transition: transform 0.25s, color 0.3s, background-color 0.3s;
+      &:active {
+        transform: scale(0.9);
+      }
       &:hover {
-        transform: scale(0.95);
+        background-color: #f9b600;
+        color: #002559;
       }
     }
     &__price {
