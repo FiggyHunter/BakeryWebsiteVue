@@ -92,10 +92,13 @@ button {
   border: 1px solid #f9b600;
   border-radius: 100rem;
   padding: 0.12rem 0.6rem;
-  transition: background 0.5s, color 0.5s;
+  transition: background 0.5s, color 0.5s, transform 0.2s;
   &:hover {
-    background-color: white;
+    background-color: #f9b600;
     color: black;
+  }
+  &:active {
+    transform: scale(0.75);
   }
 }
 
