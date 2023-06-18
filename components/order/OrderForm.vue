@@ -1,54 +1,82 @@
 <template>
   <section class="order-info">
     <div class="order-limit">
-      <h2 class="order-info__headline">Contact Information</h2>
-      <OrderStepperInfo
-        @one-clicked="goToOne"
-        :one="formFlow.one"
-        :two="formFlow.two"
-        :three="formFlow.three"
-      />
-      <Transition name="fade" mode="in-out">
-        <Form
-          v-if="formFlow.one"
-          class="order-form"
-          @invalid-submit="onInvalidSubmit"
-          @submit="onSubmit"
-          :validation-schema="schema"
-        >
-          <div class="fname">
-            <div>
-              <label class="order-info__label" for="fname">First Name</label>
-              <ErrorMessage class="error" name="fname" />
-            </div>
-            <Field :class="['order-info__field']" name="fname" v-model="fname"> </Field>
-          </div>
-          <div class="lname">
-            <div>
-              <label class="order-info__label" for="lname">Last Name</label>
-              <ErrorMessage class="error" name="lname" />
-            </div>
-            <Field :class="['order-info__field']" name="lname" v-model="lname"> </Field>
-          </div>
-          <div class="email">
-            <div>
-              <label class="order-info__label" for="email">Email Address</label>
-              <ErrorMessage class="error" name="email" />
-            </div>
-            <Field :class="['order-info__field']" name="email" v-model="email"> </Field>
-          </div>
+      <h2 class="order-info__headline">{{ formHeadline }}</h2>
+      <OrderStepperInfo @one-clicked="goToPage" @two-clicked="goToPage" :page-number="page" />
 
-          <div class="phone">
-            <div>
-              <label class="order-info__label" for="phone">Phone </label>
-              <ErrorMessage class="error" name="phone" />
+      <Form
+        class="order-form"
+        @invalid-submit="onInvalidSubmit"
+        @submit="onSubmit"
+        :validation-schema="schema"
+      >
+        <Transition name="fade" mode="out-in">
+          <div v-if="page === 1" class="step-one">
+            <div class="fname">
+              <div>
+                <label class="order-info__label" for="fname">First Name</label>
+                <ErrorMessage class="error" name="fname" />
+              </div>
+              <Field :class="['order-info__field']" name="fname" v-model="fname"> </Field>
             </div>
-            <Field :class="['order-info__field']" name="phone" v-model="phone"> </Field>
-          </div>
+            <div class="lname">
+              <div>
+                <label class="order-info__label" for="lname">Last Name</label>
+                <ErrorMessage class="error" name="lname" />
+              </div>
+              <Field :class="['order-info__field']" name="lname" v-model="lname"> </Field>
+            </div>
+            <div class="email">
+              <div>
+                <label class="order-info__label" for="email">Email Address</label>
+                <ErrorMessage class="error" name="email" />
+              </div>
+              <Field :class="['order-info__field']" name="email" v-model="email"> </Field>
+            </div>
 
-          <button class="order-now">Order now</button>
-        </Form>
-      </Transition>
+            <div class="phone">
+              <div>
+                <label class="order-info__label" for="phone">Phone </label>
+                <ErrorMessage class="error" name="phone" />
+              </div>
+              <Field :class="['order-info__field']" name="phone" v-model="phone"> </Field>
+            </div>
+          </div>
+        </Transition>
+        <Transition name="fade" mode="default">
+          <div v-if="page === 2" class="step-one">
+            <div class="card-name">
+              <div>
+                <label class="order-info__label" for="card-name">Name on Card</label>
+                <ErrorMessage class="error" name="card-name" />
+              </div>
+              <Field :class="['order-info__field']" name="card-name" v-model="cardname"> </Field>
+            </div>
+
+            <div class="card-name">
+              <div>
+                <label class="order-info__label" for="card-name">Name on Card</label>
+                <ErrorMessage class="error" name="card-name" />
+              </div>
+              <Field :class="['order-info__field']" name="card-name" v-model="cardname"> </Field>
+            </div>
+
+            <div class="card-name">
+              <div>
+                <label class="order-info__label" for="card-name">Name on Card</label>
+                <ErrorMessage class="error" name="card-name" />
+              </div>
+              <Field :class="['order-info__field']" name="card-name" v-model="cardname"> </Field>
+              <div>
+                <label class="order-info__label" for="card-name">Name on Card</label>
+                <ErrorMessage class="error" name="card-name" />
+              </div>
+              <Field :class="['order-info__field']" name="card-name" v-model="cardname"> </Field>
+            </div>
+          </div>
+        </Transition>
+        <button class="order-now">Next ></button>
+      </Form>
     </div>
   </section>
 </template>
@@ -57,12 +85,18 @@
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
 
-const formFlow = ref({ one: true, two: false, three: false });
-
 const fname = ref();
 const lname = ref();
 const email = ref();
 const phone = ref();
+const page = ref(1);
+
+const formHeadline = computed(() => getHeadlineByPage(page.value));
+const pagesHeadlines = [
+  { page: 1, headline: 'CONTACT INFORMATION' },
+  { page: 2, headline: 'PAYMENT INFORMATION' },
+  { page: 3, headline: 'Order Summary' },
+];
 
 const schema = yup.object({
   fname: yup
@@ -90,18 +124,19 @@ const schema = yup.object({
 });
 
 function onSubmit(values) {
-  formFlow.value.two = true;
-  formFlow.value.one = false;
+  page.value++;
 }
 
-function onInvalidSubmit(values) {
-  formFlow.value.two = false;
-  formFlow.value.one = true;
-}
+function onInvalidSubmit(values) {}
 
-const goToOne = () => {
-  formFlow.value.one = true;
-  formFlow.value.two = false;
+const getHeadlineByPage = (page) => {
+  const foundHeadline = pagesHeadlines.find((entry) => entry.page === page);
+  return foundHeadline ? foundHeadline.headline : 'Headline not found';
+};
+
+const goToPage = (clickedPage: number) => {
+  page.value = clickedPage;
+  formHeadline.value = pagesHeadlines;
 };
 </script>
 
@@ -110,6 +145,10 @@ const goToOne = () => {
 .order-limit {
   width: 90%;
   margin: 0 auto;
+  display: grid;
+  height: 100%;
+  grid-auto-rows: min-content;
+  align-content: center;
 }
 .fname,
 .lname,
@@ -132,9 +171,12 @@ const goToOne = () => {
 .order-info {
   border: 10px solid #f9b600;
   border-radius: 1rem;
-  .order-form {
-    display: grid;
+  transition: all 0.5s;
+  background-color: #002559;
+
+  .step-one {
     gap: 1rem;
+    transition-duration: 0;
   }
   &__headline {
     line-height: 1;
@@ -145,7 +187,7 @@ const goToOne = () => {
     font-family: $c-bold;
     text-align: center;
   }
-  background-color: #002559;
+
   &__field {
     border: 2px solid #f9b600;
     width: 100%;
@@ -178,6 +220,7 @@ const goToOne = () => {
     color: white;
     font-family: $c-bold;
     transition: all 0.25s;
+    width: 100%;
     &:hover {
       color: #002559;
       background-color: #f9b600;
@@ -205,11 +248,7 @@ const goToOne = () => {
   }
 }
 .fade-enter-active {
-  animation: fade-in 0.3s;
-}
-
-.fade-leave-active {
-  animation: fade-out 0.3s;
+  animation: fade-in 0.75s;
 }
 
 input:-webkit-autofill {

@@ -18,7 +18,6 @@
         </svg>
         <nuxt-link style="text-decoration: none; color: inherit" to="/order">Order</nuxt-link>
       </SharedMainNavInfo>
-
       <OrderContent />
     </LazyClientOnly>
   </div>
