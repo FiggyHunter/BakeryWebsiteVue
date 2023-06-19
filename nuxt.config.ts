@@ -50,6 +50,7 @@ export default defineNuxtConfig({
     { src: '@/plugins/fetchFromStorage.js', mode: 'client' },
     { src: '@/plugins/changeTitles.js', mode: 'client' },
     { src: '@/plugins/vee-validate-components.js', mode: 'client' },
+    { src: '@/plugins/vMaska.js', mode: 'client' },
   ],
   quasar: {
     extras: {
