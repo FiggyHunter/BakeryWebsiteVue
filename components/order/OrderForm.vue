@@ -5,10 +5,10 @@
       <OrderStepperInfo @one-clicked="goToPage" @two-clicked="goToPage" :page-number="page" />
 
       <Form
+        :validation-schema="getSchemaByPage(page)"
         class="order-form"
         @invalid-submit="onInvalidSubmit"
         @submit="onSubmit"
-        :validation-schema="schema"
       >
         <Transition name="fade" mode="out-in">
           <div v-if="page === 1" class="step-one">
@@ -17,21 +17,21 @@
                 <label class="order-info__label" for="fname">First Name</label>
                 <ErrorMessage class="error" name="fname" />
               </div>
-              <Field :class="['order-info__field']" name="fname" v-model="fname"> </Field>
+              <Field v-model="fname" :class="['order-info__field']" name="fname"> </Field>
             </div>
             <div class="lname">
               <div>
                 <label class="order-info__label" for="lname">Last Name</label>
                 <ErrorMessage class="error" name="lname" />
               </div>
-              <Field :class="['order-info__field']" name="lname" v-model="lname"> </Field>
+              <Field v-model="lname" :class="['order-info__field']" name="lname"> </Field>
             </div>
             <div class="email">
               <div>
                 <label class="order-info__label" for="email">Email Address</label>
                 <ErrorMessage class="error" name="email" />
               </div>
-              <Field :class="['order-info__field']" name="email" v-model="email"> </Field>
+              <Field v-model="email" :class="['order-info__field']" name="email"> </Field>
             </div>
 
             <div class="phone">
@@ -39,44 +39,104 @@
                 <label class="order-info__label" for="phone">Phone </label>
                 <ErrorMessage class="error" name="phone" />
               </div>
-              <Field :class="['order-info__field']" name="phone" v-model="phone"> </Field>
+              <Field v-model="phone" :class="['order-info__field']" name="phone"> </Field>
             </div>
           </div>
         </Transition>
-        <Transition name="fade" mode="default">
-          <div v-if="page === 2" class="step-one">
+        <Transition name="fade" mode="out-in">
+          <div v-if="page === 2" class="step-two">
             <div class="card-name">
               <div>
                 <label class="order-info__label" for="card-name">Name on Card</label>
-                <ErrorMessage class="error" name="card-name" />
+                <ErrorMessage v-if="!inputsDisabled" class="error" name="card-name" />
               </div>
-              <Field :class="['order-info__field']" name="card-name" v-model="cardname"> </Field>
+              <Field
+                v-model="cardName"
+                :class="['order-info__field']"
+                name="card-name"
+                :disabled="inputsDisabled"
+              >
+              </Field>
             </div>
 
-            <div class="card-name">
+            <div class="card-number">
               <div>
-                <label class="order-info__label" for="card-name">Name on Card</label>
-                <ErrorMessage class="error" name="card-name" />
+                <label class="order-info__label" for="card-number">Card Number</label>
+                <ErrorMessage v-if="!inputsDisabled" class="error" name="card-number" />
               </div>
-              <Field :class="['order-info__field']" name="card-name" v-model="cardname"> </Field>
+
+              <div class="card-number-ctr">
+                <Field
+                  :class="['order-info__field', `card-number-field`]"
+                  name="card-number"
+                  v-model="cardNumber"
+                  v-maska
+                  data-maska="####-####-####-####"
+                  :disabled="inputsDisabled"
+                >
+                </Field>
+                <Transition name="fade" mode="in-out">
+                  <img v-if="cardImageProvider" class="card-proivder" :src="cardImageProvider" />
+                </Transition>
+              </div>
             </div>
 
-            <div class="card-name">
+            <div class="card-details-ctr">
               <div>
-                <label class="order-info__label" for="card-name">Name on Card</label>
-                <ErrorMessage class="error" name="card-name" />
+                <label class="order-info__label" for="exp-date">Expiration Date</label>
+                <ErrorMessage v-if="!inputsDisabled" class="error" name="exp-date" />
+                <Field
+                  @change="checkDate(expDate)"
+                  v-model="expDate"
+                  :class="['order-info__field']"
+                  name="exp-date"
+                  v-maska
+                  data-maska="AB/##"
+                  data-maska-tokens="{ 'A': { 'pattern': '[0-1]' }, 'B': { 'pattern': '[0-9]' }}"
+                  placeholder="MM/YY"
+                  :disabled="inputsDisabled"
+                >
+                </Field>
               </div>
-              <Field :class="['order-info__field']" name="card-name" v-model="cardname"> </Field>
               <div>
-                <label class="order-info__label" for="card-name">Name on Card</label>
-                <ErrorMessage class="error" name="card-name" />
+                <label class="order-info__label" for="security-code">CVV (Security Code)</label>
+                <ErrorMessage v-if="!inputsDisabled" class="error" name="security-code" />
+                <Field
+                  v-model="securityCode"
+                  :class="['order-info__field']"
+                  name="security-code"
+                  placeholder="272"
+                  v-maska
+                  data-maska="####"
+                  :disabled="inputsDisabled"
+                >
+                </Field>
               </div>
-              <Field :class="['order-info__field']" name="card-name" v-model="cardname"> </Field>
+
+              <div class="checkmark-ctr">
+                <q-toggle
+                  class="checkmark"
+                  keep-color
+                  label="I will pay in store."
+                  v-model="payOnSite"
+                  color="yellow-7"
+                />
+              </div>
             </div>
           </div>
         </Transition>
-        <button class="order-now">Next ></button>
+
+        <button v-if="page !== 3" class="order-now">Next ></button>
       </Form>
+
+      <Transition name="fade" mode="in-out">
+        <OrderConfirm
+          :holder_name="cardName"
+          :card_image="cardImageProvider"
+          :card_number="cardNumber"
+          v-if="page === 3"
+        />
+      </Transition>
     </div>
   </section>
 </template>
@@ -84,21 +144,45 @@
 <script setup lang="ts">
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
+import Mastercard from '~/assets/images/mastercard.webp';
+import Visa from '~/assets/images/visa.webp';
+const page = ref(2);
+const fname = ref('');
+const lname = ref('');
+const email = ref('');
+const phone = ref('');
+const cardName = ref('');
+const cardNumber = ref('');
+const expDate = ref('');
+const securityCode = ref('');
+const payOnSite = ref(false);
 
-const fname = ref();
-const lname = ref();
-const email = ref();
-const phone = ref();
-const page = ref(1);
+const checkDate = (date: string) => {
+  const currentMonth = Number(new Date().getMonth() + 1);
+  const currentYear = new Date().getFullYear().toString().slice(-2);
 
-const formHeadline = computed(() => getHeadlineByPage(page.value));
-const pagesHeadlines = [
-  { page: 1, headline: 'CONTACT INFORMATION' },
-  { page: 2, headline: 'PAYMENT INFORMATION' },
-  { page: 3, headline: 'Order Summary' },
-];
+  if (currentYear === date.slice(-2) && currentMonth > Number(date.slice(0, -3))) {
+    console.log(currentMonth + '/' + currentYear);
+    expDate.value = 12 + '/' + currentYear;
+  }
+  if (
+    Number(currentYear) > Number(date.slice(-2)) ||
+    Number(currentYear) + 7 < Number(date.slice(-2))
+  )
+    if (Number(date.substring(0, 2)) > 12) expDate.value = '12' + date.slice(-2);
 
-const schema = yup.object({
+  expDate.value = '12' + currentYear;
+
+  if (date.slice(0, -3) === '00') expDate.value = '01/' + date.slice(3);
+};
+
+const cardImageProvider = computed(() => {
+  if (cardNumber.value.charAt(0) === '5' || cardNumber.value.charAt(0) === '2') return Mastercard;
+  if (cardNumber.value.charAt(0) === '4') return Visa;
+  return false;
+});
+
+const schema_one = yup.object({
   fname: yup
     .string()
     .required('Please enter your first name.')
@@ -110,8 +194,7 @@ const schema = yup.object({
     .string()
     .required('Please enter your last name.')
     .test('only-letters', 'Do you really have numbers in your last name?', (value) => {
-      if (/^[\p{L}]+$/u.test(value)) return true;
-      else return false;
+      return /^[\p{L}]+$/u.test(value);
     }),
   email: yup.string().email('Please check your email.').required('The email field is required.'),
   phone: yup
@@ -123,21 +206,81 @@ const schema = yup.object({
     }),
 });
 
+const schema_two = yup.object({
+  [`card-name`]: yup
+    .string()
+    .required('Please enter your name on the card.')
+    .test('only-letters', 'Do you really have numbers in your name?', (value) => {
+      if (/^[a-zA-Z]+$/.test(value)) return true;
+      else return false;
+    }),
+  [`card-number`]: yup
+    .string()
+    .required('Card number is required.')
+    .test('19 digits', 'Card number is invalid.', (value) => {
+      if (value.length < 19) return false;
+
+      return true;
+    })
+    .test('only-numbers', 'Card should have only numbers.', (value) => {
+      return /^[+\d()\/\-]+$/.test(value);
+    }),
+  [`exp-date`]: yup
+    .string()
+    .required('Exp. date is required')
+    .test('valid date', 'Date is invalid', (value) => {
+      return value.length === 5;
+    }),
+  [`security-code`]: yup
+    .string()
+    .required('Security code is required')
+    .test('valid date', 'Code is invalid', (value) => {
+      return value.length >= 3;
+    }),
+});
+
+const formHeadline = computed(() => getHeadlineByPage(page.value));
+const pagesMeta = [
+  { page: 1, headline: 'CONTACT INFORMATION', schema: schema_one },
+  { page: 2, headline: 'PAYMENT INFORMATION', schema: schema_two },
+  { page: 3, headline: 'Order Summary' },
+];
+
 function onSubmit(values) {
   page.value++;
 }
 
-function onInvalidSubmit(values) {}
+function onInvalidSubmit(values) {
+  if (payOnSite.value) page.value++;
+}
 
-const getHeadlineByPage = (page) => {
-  const foundHeadline = pagesHeadlines.find((entry) => entry.page === page);
+const getHeadlineByPage = (page: number) => {
+  const foundHeadline = pagesMeta.find((entry) => entry.page === page);
   return foundHeadline ? foundHeadline.headline : 'Headline not found';
+};
+
+const getSchemaByPage = (page: number) => {
+  const foundSchema = pagesMeta.find((entry) => entry.page === page);
+  return foundSchema ? foundSchema.schema : 'Schema not found';
 };
 
 const goToPage = (clickedPage: number) => {
   page.value = clickedPage;
   formHeadline.value = pagesHeadlines;
 };
+
+const inputsDisabled = computed(() => {
+  return payOnSite.value;
+});
+
+watch(inputsDisabled, () => {
+  if (inputsDisabled.value) {
+    cardName.value = '';
+    cardNumber.value = '';
+    expDate.value = '';
+    securityCode.value = '';
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -153,7 +296,11 @@ const goToPage = (clickedPage: number) => {
 .fname,
 .lname,
 .email,
-.phone {
+.phone,
+.card-name,
+.card-number,
+.exp-date,
+.security-code {
   div {
     display: flex;
     justify-content: space-between;
@@ -175,9 +322,16 @@ const goToPage = (clickedPage: number) => {
   background-color: #002559;
 
   .step-one {
+    display: grid;
     gap: 1rem;
     transition-duration: 0;
   }
+
+  .step-two {
+    display: grid;
+    gap: 1rem;
+  }
+
   &__headline {
     line-height: 1;
     margin: 2rem auto 0.5rem auto;
@@ -193,7 +347,6 @@ const goToPage = (clickedPage: number) => {
     width: 100%;
     color: white;
     padding: 0.5rem 0.5rem 0.25rem 0.5rem;
-
     font-size: 1.2rem;
   }
   &__label {
@@ -228,6 +381,35 @@ const goToPage = (clickedPage: number) => {
   }
 }
 
+.card-proivder {
+  position: absolute;
+  width: 2rem;
+  justify-self: end;
+  align-self: center;
+  right: 1rem;
+}
+
+.card-number-ctr {
+  display: grid;
+  position: relative;
+}
+
+.card-details-ctr {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.checkmark-ctr {
+  .checkmark {
+    color: white;
+    font-size: 1rem;
+    font-family: $c-medium-i;
+  }
+}
+.q-checkbox__bg {
+  border-color: white !important;
+}
 @keyframes fade-in {
   0% {
     opacity: 0;
@@ -256,14 +438,3 @@ input:-webkit-autofill {
   -webkit-text-fill-color: white !important;
 }
 </style>
-<!-- 
-
-<div class="location">
-  <label class="order-info__label" for="location">Select store location</label>
-  <input type="search" :class="['order-info__field']" name="location" />
-  <div class="down">V</div>
-</div>
-<div class="location">
-  <label class="order-info__label" for="location">Select store location</label>
-  <input disabled :class="['order-info__field']" name="location" />
-</div> -->
