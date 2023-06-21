@@ -1,11 +1,16 @@
 <template>
   <main class="order-details">
-    <OrderCartItems />
-    <OrderForm />
+    <OrderLoader v-if="userInformation.RENDER_CONTAINER" />
+    <OrderCartItems v-if="!userInformation.ORDER_COMPLETE && !userInformation.THANK_YOU_MSG" />
+    <OrderForm v-if="!userInformation.ORDER_COMPLETE && !userInformation.THANK_YOU_MSG" />
   </main>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useUserInformation } from '~/stores/userInformation';
+
+const userInformation = useUserInformation();
+</script>
 
 <style lang="scss" scoped>
 .order-details {
