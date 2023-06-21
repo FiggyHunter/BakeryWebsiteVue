@@ -142,6 +142,11 @@ export const useUserStore = defineStore('user', () => {
   const GET_ON_ORDER = computed(() => onOrder.value);
   const UPDATE_ON_ORDER = (value: boolean) => (onOrder.value = value);
 
+  const CLEAR_CART = () => {
+    cart.value = [];
+    UPDATE_LOCAL_STORAGE();
+  };
+
   return {
     selectedCategory,
     ADD_SELECTED_CATEGORY,
@@ -157,5 +162,6 @@ export const useUserStore = defineStore('user', () => {
     GET_ON_ORDER,
     GET_POPUP,
     UPDATE_ON_ORDER,
+    CLEAR_CART,
   };
 });
