@@ -29,13 +29,16 @@ import { useUserStore } from '~/stores/user';
 const userStore = useUserStore();
 definePageMeta({ layout: 'order', middleware: 'redir' });
 onBeforeUnmount(() => {
-  userStore.UPDATE_ON_ORDER(true);
+  if (userStore.GET_CART_LENGTH !== 0) userStore.UPDATE_ON_ORDER(true);
 });
 </script>
 
 <style lang="scss" scoped>
 .limiter {
-  width: 80%;
+  width: 90%;
+  @media screen and (min-width: 700px) {
+    width: 80%;
+  }
   margin: 0 auto;
 }
 </style>
