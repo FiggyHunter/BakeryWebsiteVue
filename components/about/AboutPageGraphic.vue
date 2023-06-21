@@ -49,7 +49,7 @@ const props = defineProps({
   }
 
   &__headline {
-    color: #73aed7;
+    color: #002559;
     font-family: $c-bold;
     font-size: clamp(2rem, 1rem + 5vw, 3.5rem);
   }
