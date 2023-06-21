@@ -17,21 +17,24 @@
                 <label class="order-info__label" for="fname">First Name</label>
                 <ErrorMessage class="error" name="fname" />
               </div>
-              <Field v-model="fname" :class="['order-info__field']" name="fname"> </Field>
+              <Field v-model="userInformation.fname" :class="['order-info__field']" name="fname">
+              </Field>
             </div>
             <div class="lname">
               <div>
                 <label class="order-info__label" for="lname">Last Name</label>
                 <ErrorMessage class="error" name="lname" />
               </div>
-              <Field v-model="lname" :class="['order-info__field']" name="lname"> </Field>
+              <Field v-model="userInformation.lname" :class="['order-info__field']" name="lname">
+              </Field>
             </div>
             <div class="email">
               <div>
                 <label class="order-info__label" for="email">Email Address</label>
                 <ErrorMessage class="error" name="email" />
               </div>
-              <Field v-model="email" :class="['order-info__field']" name="email"> </Field>
+              <Field v-model="userInformation.email" :class="['order-info__field']" name="email">
+              </Field>
             </div>
 
             <div class="phone">
@@ -39,7 +42,8 @@
                 <label class="order-info__label" for="phone">Phone </label>
                 <ErrorMessage class="error" name="phone" />
               </div>
-              <Field v-model="phone" :class="['order-info__field']" name="phone"> </Field>
+              <Field v-model="userInformation.phone" :class="['order-info__field']" name="phone">
+              </Field>
             </div>
           </div>
         </Transition>
@@ -99,7 +103,8 @@
                 </Field>
               </div>
               <div>
-                <label class="order-info__label" for="security-code">CVV (Security Code)</label>
+                <label class="order-info__label" for="security-code">CVV </label>
+                <span class="cvv-help">?</span>
                 <ErrorMessage v-if="!inputsDisabled" class="error" name="security-code" />
                 <Field
                   v-model="securityCode"
@@ -131,9 +136,12 @@
 
       <Transition name="fade" mode="in-out">
         <OrderConfirm
+          @editClick="page = 2"
           :holder_name="cardName"
           :card_image="cardImageProvider"
           :card_number="cardNumber"
+          :fname="userInformation.fname"
+          :lname="userInformation.lname"
           v-if="page === 3"
         />
       </Transition>
@@ -146,16 +154,23 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
 import Mastercard from '~/assets/images/mastercard.webp';
 import Visa from '~/assets/images/visa.webp';
-const page = ref(2);
-const fname = ref('');
-const lname = ref('');
-const email = ref('');
-const phone = ref('');
+import { useUserInformation } from '~/stores/userInformation';
+
+const userInformation = useUserInformation();
+
+const page = ref(1);
 const cardName = ref('');
 const cardNumber = ref('');
 const expDate = ref('');
 const securityCode = ref('');
 const payOnSite = ref(false);
+
+watch(page, async () => {
+  if (process.client)
+    document
+      .querySelector('.order-info__headline')
+      .scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
 
 const checkDate = (date: string) => {
   const currentMonth = Number(new Date().getMonth() + 1);
@@ -211,7 +226,7 @@ const schema_two = yup.object({
     .string()
     .required('Please enter your name on the card.')
     .test('only-letters', 'Do you really have numbers in your name?', (value) => {
-      if (/^[a-zA-Z]+$/.test(value)) return true;
+      if (/^[\p{L}\p{M}'’čć]+(?:\s[\p{L}\p{M}'’čć]+)*$/u.test(value)) return true;
       else return false;
     }),
   [`card-number`]: yup
@@ -266,7 +281,6 @@ const getSchemaByPage = (page: number) => {
 
 const goToPage = (clickedPage: number) => {
   page.value = clickedPage;
-  formHeadline.value = pagesHeadlines;
 };
 
 const inputsDisabled = computed(() => {
@@ -400,7 +414,17 @@ watch(inputsDisabled, () => {
   gap: 2rem;
 }
 
+.cvv-help {
+  color: #f9b600;
+  font-family: $c-bold;
+
+  text-align: end;
+  font-size: 1rem;
+}
+
 .checkmark-ctr {
+  width: 100%;
+  grid-column: 1/-1;
   .checkmark {
     color: white;
     font-size: 1rem;
