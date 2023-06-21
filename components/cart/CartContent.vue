@@ -97,6 +97,8 @@ const cartPrice = computed(() => {
 
   &__headline {
     font-size: 2rem;
+    color: #002b50;
+    margin-bottom: 1rem;
   }
 
   &__button {

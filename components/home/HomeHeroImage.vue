@@ -65,8 +65,8 @@ section {
     transition: color, background 0.3s;
     &:hover,
     &:focus {
-      color: black;
-      background-color: white;
+      color: #002559;
+      background-color: #f9b600;
       border: 2px solid black;
     }
   }
