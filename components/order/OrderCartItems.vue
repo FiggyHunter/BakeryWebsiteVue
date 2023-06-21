@@ -58,7 +58,7 @@ const totalPrice = computed(() => userStore.GET_TOTAL_PRICE_OF_CART());
       justify-self: right;
 
       h2 {
-        font-size: clamp(1.25rem, 1rem + 2vw, 2rem);
+        font-size: clamp(1.25rem, 1rem + 2vw, 1.75rem);
         font-family: $c-bold;
         text-transform: uppercase;
         color: #002559;
@@ -66,7 +66,7 @@ const totalPrice = computed(() => userStore.GET_TOTAL_PRICE_OF_CART());
         text-align: right;
       }
       h3 {
-        font-size: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+        font-size: clamp(1rem, 0.75rem + 1vw, 1.25rem);
         font-family: $c-medium;
         color: #002559;
         line-height: 1.5;
