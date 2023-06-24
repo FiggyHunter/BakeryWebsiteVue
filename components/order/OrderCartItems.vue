@@ -6,7 +6,7 @@
         <h2 class="">{{ product.name }}</h2>
         <h3 class=""
           >{{ product.price }} $ x {{ product.quantity }} =
-          {{ product.price * product.quantity }} $</h3
+          {{ (product.price * product.quantity).toFixed(2) }} $</h3
         >
       </div>
     </article>
