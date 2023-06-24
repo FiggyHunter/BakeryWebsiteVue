@@ -1,6 +1,6 @@
 <template>
   <section>
-    <img class="image" src="../../assets/images/bakery.avif" alt="breads on a shelf" />
+    <img class="image" src="../../assets/images/coverBread.webp" alt="breads on a shelf" />
     <div class="home-hero-content">
       <h1 class="headline"
         >Explore our delicious products<span class="yellow">,</span> <br />
