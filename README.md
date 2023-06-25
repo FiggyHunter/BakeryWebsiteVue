@@ -1,4 +1,4 @@
-<h1> Our Bakery - Website for a fictional Bakery <br> Find it live: <a target="_blank" href="bakery.leotg.com">bakery.leotg.com</a> </h1>
+<h1> Our Bakery - Website for a fictional Bakery <br> Find it live: <a target="_blank" href="https://bakery.leotg.com">bakery.leotg.com</a> </h1>
 
 <h2>Project Description</h2>
 This project is a website with ecommerce functionalities for a fictional bakery called "Our Bakery". It is developed and designed to match the modern development and design principles. The project utilizes Nuxt.js with Express.js and Fastify.js technologies. As for other tools and utilities, check out "Project Technologies" tab. This project is self hosted on Linux Mint using Caddy.
